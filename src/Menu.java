@@ -7,12 +7,13 @@ import javafx.scene.paint.Color;
 
 public class Menu {
 	private Scene menuScene;
+	private Group root;
 	
 	/**
 	 * Creates the menu scene
 	 */
 	public Scene init(int width, int height) {
-		Group root = new Group();
+		root = new Group();
 		menuScene = new Scene(root, width, height, Color.AZURE);
 		
 		Button startBtn = createStartBtn();
