@@ -83,6 +83,22 @@ public class Battle {
 		}
 	}
 	
+	private void createEnemy() {
+		Rectangle enemy = new Rectangle();
+		enemy.setFill(Color.RED);
+		enemy.setWidth(ENEMY_SIZE);
+		enemy.setHeight(ENEMY_SIZE);
+		enemy.setX(generateRandomEnemyX());
+		enemy.setY(0);
+		
+		enemies.getChildren().add(enemy);
+	}
+	
+	private double generateRandomEnemyX() {
+		Random r = new Random();
+		return (Main.SIZE - ENEMY_SIZE) * r.nextDouble();
+	}
+	
 	private void createPlayer() {
 		player = new Rectangle();
 		player.setFill(Color.GREEN);
@@ -101,22 +117,6 @@ public class Battle {
 		laser.setY(player.getY() - LASER_SIZE);
 	
 		lasers.getChildren().add(laser);
-	}
-	
-	private void createEnemy() {
-		Rectangle enemy = new Rectangle();
-		enemy.setFill(Color.RED);
-		enemy.setWidth(ENEMY_SIZE);
-		enemy.setHeight(ENEMY_SIZE);
-		enemy.setX(generateRandomEnemyX());
-		enemy.setY(0);
-		
-		enemies.getChildren().add(enemy);
-	}
-	
-	private double generateRandomEnemyX() {
-		Random r = new Random();
-		return (Main.SIZE - ENEMY_SIZE) * r.nextDouble();
 	}
 		
 	private void handleKeyInput(KeyCode code) {

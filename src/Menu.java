@@ -50,7 +50,7 @@ public class Menu {
         instructBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	// go to Instructions scene
+            	SceneManager.goToInstructionsScene();
             }
         });
         

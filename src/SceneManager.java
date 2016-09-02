@@ -25,6 +25,12 @@ public class SceneManager {
 		stage.setScene(menuScene);
 	}
 	
+	public static void goToInstructionsScene() {
+		Instructions instructions = new Instructions();
+		Scene instructionsScene = instructions.init(Main.SIZE, Main.SIZE);
+		stage.setScene(instructionsScene);
+	}
+	
 	public static void goToBattleScene() {
 		Battle battle = new Battle();
 		Scene battleScene = battle.init(Main.SIZE, Main.SIZE);
