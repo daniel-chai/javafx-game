@@ -33,7 +33,7 @@ public class Menu {
         startBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	// go to Battle scene
+            	SceneManager.goToBattleScene();
             }
         });
         
