@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-public class GameOver {
+public class GameOver implements SceneInterface {
 	private Scene gameOverScene;
 	private Group root;
 	

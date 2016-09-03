@@ -4,14 +4,13 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 public class Battle {
 	private static final int PLAYER_WIDTH = 50;
-	private static final int PLAYER_HEIGHT = 75;
+	private static final int PLAYER_HEIGHT = 50;
 	private static final int ARROW_SHIFT = 10;
 	private static final int LASER_SIZE = 10;
 	private static final int ENEMY_SIZE = 50;
@@ -22,14 +21,22 @@ public class Battle {
 	private Group lasers;
 	private Group enemies;
 	
+	private int level;
+	private double timer = 0.0;
+	private double TIMER_LIMIT = 5.0;
 	private long stepCounter = 0L;
 	
 	/**
 	 * Creates the battle scene
 	 */
-	public Scene init(int width, int height) {
+	public Scene init(int width, int height, int level) {
+		this.level = level;
+		
 		root = new Group();
 		battleScene = new Scene(root, width, height, Color.BLACK);
+		
+		Text levelText = createLevelText();
+		root.getChildren().add(levelText);
 		
 		createPlayer();
 		root.getChildren().add(player);
@@ -45,7 +52,39 @@ public class Battle {
 		return battleScene;
 	}
 	
+	private Text createLevelText() {
+		Text levelText = new Text();
+		levelText.setFill(Color.WHITE);
+		levelText.setX(10);
+		levelText.setY(Main.SIZE - 10);
+		levelText.setText("Level " + level);
+		
+		return levelText;
+	}
+	
+	private void createPlayer() {
+		player = new Rectangle();
+		player.setFill(Color.GREEN);
+		player.setWidth(PLAYER_WIDTH);
+		player.setHeight(PLAYER_HEIGHT);
+		player.setX(Main.SIZE / 2 - PLAYER_WIDTH / 2);
+		player.setY(Main.SIZE - PLAYER_HEIGHT / 2 - 75);	
+	}
+	
+	private void shootLaser() {
+		Rectangle laser = new Rectangle();
+		laser.setFill(Color.YELLOW);
+		laser.setWidth(LASER_SIZE);
+		laser.setHeight(LASER_SIZE);
+		laser.setX(player.getX() + PLAYER_WIDTH / 2 - LASER_SIZE / 2);
+		laser.setY(player.getY() - LASER_SIZE);
+	
+		lasers.getChildren().add(laser);
+	}
+	
 	public void step(double elapsedTime) {
+		checkTimeUp(elapsedTime);
+		
 		moveLasersUp();
 		moveEnemiesDown();
 		checkLaserEnemyIntersect();
@@ -56,6 +95,14 @@ public class Battle {
 			createEnemy();
 		}
 		stepCounter++;
+	}
+	
+	private void checkTimeUp(double elapsedTime) {
+		timer += elapsedTime;
+		if (timer > TIMER_LIMIT) {
+			// player wins level
+			SceneManager.goToNextLevelScene(level + 1);
+		}
 	}
 	
 	private void moveLasersUp() {
@@ -118,26 +165,6 @@ public class Battle {
 	private double generateRandomEnemyX() {
 		Random r = new Random();
 		return (Main.SIZE - ENEMY_SIZE) * r.nextDouble();
-	}
-	
-	private void createPlayer() {
-		player = new Rectangle();
-		player.setFill(Color.GREEN);
-		player.setWidth(PLAYER_WIDTH);
-		player.setHeight(PLAYER_HEIGHT);
-		player.setX(Main.SIZE / 2 - PLAYER_WIDTH / 2);
-		player.setY(Main.SIZE - PLAYER_HEIGHT / 2 - 75);	
-	}
-	
-	private void shootLaser() {
-		Rectangle laser = new Rectangle();
-		laser.setFill(Color.YELLOW);
-		laser.setWidth(LASER_SIZE);
-		laser.setHeight(LASER_SIZE);
-		laser.setX(player.getX() + PLAYER_WIDTH / 2 - LASER_SIZE / 2);
-		laser.setY(player.getY() - LASER_SIZE);
-	
-		lasers.getChildren().add(laser);
 	}
 		
 	private void handleKeyInput(KeyCode code) {

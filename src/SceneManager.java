@@ -16,11 +16,13 @@ public class SceneManager {
 	 * Initiates the SceneManager
 	 */
 	public static void init(Stage primaryStage) {
+		animation = new Timeline();
 		stage = primaryStage;
 		stage.show();
 	}
 	
 	public static void goToMenuScene() {
+		animation.stop();
 		Menu menu = new Menu();
 		Scene menuScene = menu.init(Main.SIZE, Main.SIZE);
 		stage.setScene(menuScene);
@@ -39,9 +41,16 @@ public class SceneManager {
 		stage.setScene(gameOverScene);
 	}
 	
-	public static void goToBattleScene() {
+	public static void goToNextLevelScene(int level) {
+		animation.stop();
+		NextLevel nextLevel = new NextLevel();
+		Scene nextLevelScene = nextLevel.init(Main.SIZE, Main.SIZE, level);
+		stage.setScene(nextLevelScene);
+	}
+	
+	public static void goToBattleScene(int level) {
 		Battle battle = new Battle();
-		Scene battleScene = battle.init(Main.SIZE, Main.SIZE);
+		Scene battleScene = battle.init(Main.SIZE, Main.SIZE, level);
 		stage.setScene(battleScene);
 		
 		// sets the game's loop

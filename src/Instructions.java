@@ -6,7 +6,7 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-public class Instructions {
+public class Instructions implements SceneInterface {
 	private Scene instructionsScene;
 	private Group root;
 	
