@@ -10,6 +10,7 @@ public class SceneManager {
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     
 	private static Stage stage;
+	private static Timeline animation;
 	
 	/**
 	 * Initiates the SceneManager
@@ -31,6 +32,13 @@ public class SceneManager {
 		stage.setScene(instructionsScene);
 	}
 	
+	public static void goToGameOverScene() {
+		animation.stop();
+		GameOver gameOver = new GameOver();
+		Scene gameOverScene = gameOver.init(Main.SIZE, Main.SIZE);
+		stage.setScene(gameOverScene);
+	}
+	
 	public static void goToBattleScene() {
 		Battle battle = new Battle();
 		Scene battleScene = battle.init(Main.SIZE, Main.SIZE);
@@ -38,7 +46,7 @@ public class SceneManager {
 		
 		// sets the game's loop
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> battle.step(SECOND_DELAY));
-		Timeline animation = new Timeline();
+		animation = new Timeline();
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
 		animation.play();

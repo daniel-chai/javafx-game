@@ -4,6 +4,8 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -47,6 +49,8 @@ public class Battle {
 		moveLasersUp();
 		moveEnemiesDown();
 		checkLaserEnemyIntersect();
+		checkPlayerEnemyIntersect();
+		checkEnemyReachBottom();
 		
 		if (stepCounter % 100 == 0) {
 			createEnemy();
@@ -64,7 +68,7 @@ public class Battle {
 	private void moveEnemiesDown() {
 		for (Node enemyNode : enemies.getChildren()) {
 			Rectangle enemy = (Rectangle) enemyNode;
-			enemy.setY(enemy.getY() + 0.25);
+			enemy.setY(enemy.getY() + 1);
 		}
 	}
 	
@@ -73,12 +77,29 @@ public class Battle {
 			Rectangle enemy = (Rectangle) enemyNode;
 			for (Node laserNode : lasers.getChildren()) {
 				Rectangle laser = (Rectangle) laserNode;
-				if (laser.getY() <= enemy.getY() + ENEMY_SIZE && laser.getY() >= enemy.getY() &&
-						laser.getX() + LASER_SIZE >= enemy.getX() && laser.getX() <= enemy.getX() + ENEMY_SIZE) {
+				if (laser.getBoundsInParent().intersects(enemy.getBoundsInParent())) {
 					enemies.getChildren().remove(enemyNode);
 					lasers.getChildren().remove(laserNode);
 					break outer;
 				}
+			}
+		}
+	}
+	
+	private void checkPlayerEnemyIntersect() {
+		for (Node enemyNode : enemies.getChildren()) {
+			Rectangle enemy = (Rectangle) enemyNode;
+			if (player.getBoundsInParent().intersects(enemy.getBoundsInParent())) {
+				SceneManager.goToGameOverScene();
+			}
+		}
+	}
+	
+	private void checkEnemyReachBottom() {
+		for (Node enemyNode : enemies.getChildren()) {
+			Rectangle enemy = (Rectangle) enemyNode;
+			if (enemy.getY() + ENEMY_SIZE > Main.SIZE) {
+				SceneManager.goToGameOverScene();
 			}
 		}
 	}

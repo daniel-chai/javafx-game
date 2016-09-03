@@ -20,8 +20,8 @@ public class Instructions {
 		Text instructionsText = createInstructionsText();
 		root.getChildren().add(instructionsText);
 		
-		Button backButton = createBackButton();
-		root.getChildren().add(backButton);
+		Button menuButton = createMenuButton();
+		root.getChildren().add(menuButton);
 		
         return instructionsScene;
 	}
@@ -37,19 +37,19 @@ public class Instructions {
 		return instructionsText;
 	}
 	
-	private Button createBackButton() {
-		Button backButton = new Button();
-        backButton.setText("Back to Menu");
-        backButton.setLayoutX(50);
-        backButton.setLayoutY(200);
+	private Button createMenuButton() {
+		Button menuButton = new Button();
+        menuButton.setText("Back to Menu");
+        menuButton.setLayoutX(50);
+        menuButton.setLayoutY(100);
         
-        backButton.setOnAction(new EventHandler<ActionEvent>() {
+        menuButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
             	SceneManager.goToMenuScene();
             }
         });
         
-        return backButton;
+        return menuButton;
 	}
 }
