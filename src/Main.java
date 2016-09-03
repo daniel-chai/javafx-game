@@ -2,7 +2,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
  
 public class Main extends Application {
-	public static final String TITLE = "My Game";
+	public static final String TITLE = "Laser Mania";
 	public static final int SIZE = 500;
 	
     @Override
