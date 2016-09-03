@@ -28,17 +28,32 @@ public class NextLevel {
 	
 	private Button createNextLevelButton() {
 		Button nextLevelBtn = new Button();
-        nextLevelBtn.setText("Go to level " + level);
         nextLevelBtn.setLayoutX(50);
         nextLevelBtn.setLayoutY(50);
+        
+        if (isNextLevelBoss()) {
+        	nextLevelBtn.setText("Go to boss level");
+        }
+        else {
+        	nextLevelBtn.setText("Go to level " + level);
+        }
         
         nextLevelBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	SceneManager.goToBattleScene(level);
+            	if (isNextLevelBoss()) {
+            		SceneManager.goToBossBattleScene();
+            	}
+            	else {
+            		SceneManager.goToBattleScene(level);
+            	}
             }
         });
         
         return nextLevelBtn;
+	}
+	
+	private boolean isNextLevelBoss() {
+		return level >= 4 ? true : false;
 	}
 }

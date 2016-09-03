@@ -60,4 +60,10 @@ public class SceneManager {
 		animation.getKeyFrames().add(frame);
 		animation.play();
 	}
+	
+	public static void goToBossBattleScene() {
+		BossBattle bossBattle = new BossBattle();
+		Scene bossBattleScene = bossBattle.init(Main.SIZE, Main.SIZE);
+		stage.setScene(bossBattleScene);
+	}
 }

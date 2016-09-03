@@ -23,7 +23,7 @@ public class Battle {
 	
 	private int level;
 	private double timer = 0.0;
-	private double TIMER_LIMIT = 5.0;
+	private double TIMER_LIMIT = 10.0;
 	private long stepCounter = 0L;
 	
 	/**
@@ -68,7 +68,7 @@ public class Battle {
 		player.setWidth(PLAYER_WIDTH);
 		player.setHeight(PLAYER_HEIGHT);
 		player.setX(Main.SIZE / 2 - PLAYER_WIDTH / 2);
-		player.setY(Main.SIZE - PLAYER_HEIGHT / 2 - 75);	
+		player.setY(Main.SIZE - PLAYER_HEIGHT - 25);	
 	}
 	
 	private void shootLaser() {
@@ -82,6 +82,16 @@ public class Battle {
 		lasers.getChildren().add(laser);
 	}
 	
+	private int getEnemyCreationRate() {
+		int[] enemyCreationRate = {150, 125, 100, 75};
+		return enemyCreationRate[level];
+	}
+	
+	private double getEnemyTravelRate() {
+		double[] enemyTravelRate = {0.9, 1, 1.1, 1.2};
+		return enemyTravelRate[level];
+	}
+	
 	public void step(double elapsedTime) {
 		checkTimeUp(elapsedTime);
 		
@@ -91,7 +101,7 @@ public class Battle {
 		checkPlayerEnemyIntersect();
 		checkEnemyReachBottom();
 		
-		if (stepCounter % 100 == 0) {
+		if (stepCounter % getEnemyCreationRate() == 0) {
 			createEnemy();
 		}
 		stepCounter++;
@@ -115,7 +125,7 @@ public class Battle {
 	private void moveEnemiesDown() {
 		for (Node enemyNode : enemies.getChildren()) {
 			Rectangle enemy = (Rectangle) enemyNode;
-			enemy.setY(enemy.getY() + 1);
+			enemy.setY(enemy.getY() + getEnemyTravelRate());
 		}
 	}
 	
