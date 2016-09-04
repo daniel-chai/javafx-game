@@ -3,8 +3,16 @@ import javafx.scene.shape.Rectangle;
 
 public class EnemyBoss {
 	private Rectangle enemyBoss;
+	private int width;
+	private int height;
 	
 	public EnemyBoss(int width, int height) {
+		this.width = width;
+		this.height = height;
+		init();	
+	}
+	
+	private void init() {
 		enemyBoss = new Rectangle();
 		enemyBoss.setFill(Color.RED);
 		enemyBoss.setWidth(width);

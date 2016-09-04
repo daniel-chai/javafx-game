@@ -3,8 +3,16 @@ import javafx.scene.shape.Rectangle;
 
 public class Player {
 	private Rectangle player;
+	private int width;
+	private int height;
 	
 	public Player(int width, int height) {
+		this.width = width;
+		this.height = height;
+		init();
+	}
+	
+	private void init() {
 		player = new Rectangle();
 		player.setFill(Color.GREEN);
 		player.setWidth(width);
