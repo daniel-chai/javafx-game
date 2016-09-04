@@ -35,51 +35,40 @@ public class Battle {
 		root = new Group();
 		battleScene = new Scene(root, width, height, Color.BLACK);
 		
-		Text levelText = createLevelText();
-		root.getChildren().add(levelText);
-		
-		createPlayer();
-		root.getChildren().add(player);
-		
-		lasers = new Group();
-		root.getChildren().add(lasers);
-		
-		enemies = new Group();
-		root.getChildren().add(enemies);
+		addLevelText();
+		addPlayer();
+		addLasers();
+		addEnemies();
 		
 		battleScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 		
 		return battleScene;
 	}
 	
-	private Text createLevelText() {
+	private void addLevelText() {
 		Text levelText = new Text();
 		levelText.setFill(Color.WHITE);
 		levelText.setX(10);
 		levelText.setY(Main.SIZE - 10);
 		levelText.setText("Level " + level);
 		
-		return levelText;
+		root.getChildren().add(levelText);
 	}
 	
-	private void createPlayer() {
-		player = new Rectangle();
-		player.setFill(Color.GREEN);
-		player.setWidth(PLAYER_WIDTH);
-		player.setHeight(PLAYER_HEIGHT);
-		player.setX(Main.SIZE / 2 - PLAYER_WIDTH / 2);
-		player.setY(Main.SIZE - PLAYER_HEIGHT - 25);	
+	private void addPlayer() {
+		Player playerObject = new Player(PLAYER_WIDTH, PLAYER_HEIGHT);
+		player = playerObject.getPlayer();
+		root.getChildren().add(player);
 	}
 	
-	private void shootLaser() {
-		Rectangle laser = new Rectangle();
-		laser.setFill(Color.YELLOW);
-		laser.setWidth(LASER_SIZE);
-		laser.setHeight(LASER_SIZE);
-		laser.setX(player.getX() + PLAYER_WIDTH / 2 - LASER_SIZE / 2);
-		laser.setY(player.getY() - LASER_SIZE);
+	private void addLasers() {
+		lasers = new Group();
+		root.getChildren().add(lasers);
+	}
 	
-		lasers.getChildren().add(laser);
+	private void addEnemies() {
+		enemies = new Group();
+		root.getChildren().add(enemies);
 	}
 	
 	private int getEnemyCreationRate() {
@@ -177,6 +166,17 @@ public class Battle {
 		return (Main.SIZE - ENEMY_SIZE) * r.nextDouble();
 	}
 		
+	private void shootLaser() {
+		Rectangle laser = new Rectangle();
+		laser.setFill(Color.YELLOW);
+		laser.setWidth(LASER_SIZE);
+		laser.setHeight(LASER_SIZE);
+		laser.setX(player.getX() + PLAYER_WIDTH / 2 - LASER_SIZE / 2);
+		laser.setY(player.getY() - LASER_SIZE);
+	
+		lasers.getChildren().add(laser);
+	}
+	
 	private void handleKeyInput(KeyCode code) {
 		switch(code) {
 			case LEFT:

@@ -10,50 +10,47 @@ public class Menu implements SceneInterface {
 	private Group root;
 	
 	/**
-	 * Creates the menu scene
+	 * adds the menu scene
 	 */
 	public Scene init(int width, int height) {
 		root = new Group();
 		menuScene = new Scene(root, width, height, Color.AZURE);
 		
-		Button startBtn = createStartBtn();
-		Button instructBtn = createInstructBtn();
-       
-        root.getChildren().add(startBtn);
-        root.getChildren().add(instructBtn);
-       
+		addStartButton();
+		addInstructButton();
+		
         return menuScene;
 	}
 	
-	private Button createStartBtn() {
-		Button startBtn = new Button();
-        startBtn.setText("Start Game");
-        startBtn.setLayoutX(50);
-        startBtn.setLayoutY(50);
+	private void addStartButton() {
+		Button startButton = new Button();
+        startButton.setText("Start Game");
+        startButton.setLayoutX(50);
+        startButton.setLayoutY(50);
         
-        startBtn.setOnAction(new EventHandler<ActionEvent>() {
+        startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
             	SceneManager.goToBattleScene(0);
             }
         });
         
-        return startBtn;
+        root.getChildren().add(startButton);
 	}
 	
-	private Button createInstructBtn() {
-		Button instructBtn = new Button();
-        instructBtn.setText("Instructions");
-        instructBtn.setLayoutX(50);
-        instructBtn.setLayoutY(100);
+	private void addInstructButton() {
+		Button instructButton = new Button();
+        instructButton.setText("Instructions");
+        instructButton.setLayoutX(50);
+        instructButton.setLayoutY(100);
         
-        instructBtn.setOnAction(new EventHandler<ActionEvent>() {
+        instructButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
             	SceneManager.goToInstructionsScene();
             }
         });
         
-        return instructBtn;
+        root.getChildren().add(instructButton);
 	}
 }

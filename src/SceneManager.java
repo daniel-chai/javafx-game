@@ -29,6 +29,7 @@ public class SceneManager {
 	}
 	
 	public static void goToInstructionsScene() {
+		animation.stop();
 		Instructions instructions = new Instructions();
 		Scene instructionsScene = instructions.init(Main.SIZE, Main.SIZE);
 		stage.setScene(instructionsScene);

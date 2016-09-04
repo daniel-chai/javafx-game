@@ -15,18 +15,15 @@ public class Instructions implements SceneInterface {
 	 */
 	public Scene init(int width, int height) {
 		root = new Group();
-		instructionsScene = new Scene(root, width, height, Color.AZURE);
-       
-		Text instructionsText = createInstructionsText();
-		root.getChildren().add(instructionsText);
+		instructionsScene = new Scene(root, width, height, Color.AZURE);		
 		
-		Button menuButton = createMenuButton();
-		root.getChildren().add(menuButton);
+		addInstructionsText();
+		addMenuButton();
 		
         return instructionsScene;
 	}
 	
-	private Text createInstructionsText() {
+	private void addInstructionsText() {
 		Text instructionsText = new Text();
 		instructionsText.setX(50);
 		instructionsText.setY(50);
@@ -34,10 +31,10 @@ public class Instructions implements SceneInterface {
 								"Space to shoot lasers.\n" +
 								"Q to quit to menu.");
 		
-		return instructionsText;
+		root.getChildren().add(instructionsText);
 	}
 	
-	private Button createMenuButton() {
+	private void addMenuButton() {
 		Button menuButton = new Button();
         menuButton.setText("Back to Menu");
         menuButton.setLayoutX(50);
@@ -50,6 +47,6 @@ public class Instructions implements SceneInterface {
             }
         });
         
-        return menuButton;
+        root.getChildren().add(menuButton);
 	}
 }

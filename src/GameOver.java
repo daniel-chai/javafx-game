@@ -11,31 +11,28 @@ public class GameOver implements SceneInterface {
 	private Group root;
 	
 	/**
-	 * Creates the GameOver Scene
+	 * adds the GameOver Scene
 	 */
 	public Scene init(int width, int height) {
 		root = new Group();
 		gameOverScene = new Scene(root, width, height, Color.AZURE);
 		
-		Text gameOverText = createGameOverText();
-		root.getChildren().add(gameOverText);
-		
-		Button menuButton = createMenuButton();
-		root.getChildren().add(menuButton);
+		addGameOverText();
+		addMenuButton();
 		
 		return gameOverScene;
 	}
 	
-	private Text createGameOverText() {
+	private void addGameOverText() {
 		Text gameOverText = new Text();
 		gameOverText.setX(50);
 		gameOverText.setY(50);
 		gameOverText.setText("GAME OVER");
 		
-		return gameOverText;
+		root.getChildren().add(gameOverText);
 	}
 	
-	private Button createMenuButton() {
+	private void addMenuButton() {
 		Button menuButton = new Button();
 		menuButton.setLayoutX(50);
 		menuButton.setLayoutY(100);
@@ -48,6 +45,6 @@ public class GameOver implements SceneInterface {
             }
         });
 		
-		return menuButton;
+		root.getChildren().add(menuButton);
 	}
 }

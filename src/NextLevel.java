@@ -12,7 +12,7 @@ public class NextLevel {
 	private int level;
 	
 	/**
-	 * Creates the NextLevel scene
+	 * adds the NextLevel scene
 	 */
 	public Scene init(int width, int height, int level) {
 		this.level = level;
@@ -20,25 +20,24 @@ public class NextLevel {
 		root = new Group();
 		nextLevelScene = new Scene(root, width, height, Color.AZURE);
 		
-		Button nextLevelButton = createNextLevelButton();
-		root.getChildren().add(nextLevelButton);
+		addNextLevelButton();
 		
 		return nextLevelScene;
 	}
 	
-	private Button createNextLevelButton() {
-		Button nextLevelBtn = new Button();
-        nextLevelBtn.setLayoutX(50);
-        nextLevelBtn.setLayoutY(50);
+	private void addNextLevelButton() {
+		Button nextLevelButton = new Button();
+        nextLevelButton.setLayoutX(50);
+        nextLevelButton.setLayoutY(50);
         
         if (isNextLevelBoss()) {
-        	nextLevelBtn.setText("Go to boss level");
+        	nextLevelButton.setText("Go to boss level");
         }
         else {
-        	nextLevelBtn.setText("Go to level " + level);
+        	nextLevelButton.setText("Go to level " + level);
         }
         
-        nextLevelBtn.setOnAction(new EventHandler<ActionEvent>() {
+        nextLevelButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
             	if (isNextLevelBoss()) {
@@ -50,10 +49,10 @@ public class NextLevel {
             }
         });
         
-        return nextLevelBtn;
+        root.getChildren().add(nextLevelButton);
 	}
 	
 	private boolean isNextLevelBoss() {
-		return level >= 4 ? true : false;
+		return level >= 2 ? true : false;
 	}
 }
