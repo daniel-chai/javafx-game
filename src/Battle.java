@@ -10,18 +10,18 @@ public class Battle {
 	private static final int PLAYER_WIDTH = 50;
 	private static final int PLAYER_HEIGHT = 50;
 	private static final int ARROW_SHIFT = 10;
-	private static final int LASER_SIZE = 10;
 	private static final int ENEMY_SIZE = 50;
+	private static final int LASER_SIZE = 10;
 	
 	private Scene battleScene;
 	private Group root;
 	private Rectangle player;
-	private Group lasers;
 	private Group enemies;
+	private Group lasers;
 	
 	private int level;
 	private double timer = 0.0;
-	private double TIMER_LIMIT = 10.0;
+	private double TIMER_LIMIT = 0.0;
 	private long stepCounter = 0L;
 	
 	/**
@@ -35,8 +35,8 @@ public class Battle {
 		
 		addLevelText();
 		addPlayer();
-		addLasers();
 		addEnemies();
+		addLasers();
 		
 		battleScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 		
@@ -59,14 +59,14 @@ public class Battle {
 		root.getChildren().add(player);
 	}
 	
-	private void addLasers() {
-		lasers = new Group();
-		root.getChildren().add(lasers);
-	}
-	
 	private void addEnemies() {
 		enemies = new Group();
 		root.getChildren().add(enemies);
+	}
+	
+	private void addLasers() {
+		lasers = new Group();
+		root.getChildren().add(lasers);
 	}
 	
 	private int getEnemyCreationRate() {
@@ -75,7 +75,7 @@ public class Battle {
 	}
 	
 	private double getEnemyTravelRate() {
-		double[] enemyTravelRate = {0.9, 1, 1.1, 1.2};
+		double[] enemyTravelRate = {0.9, 1.0, 1.1, 1.2};
 		return enemyTravelRate[level];
 	}
 	
@@ -85,13 +85,14 @@ public class Battle {
 		if (stepCounter % getEnemyCreationRate() == 0) {
 			createEnemy();
 		}
-		stepCounter++;
 		
-		moveLasersUp();
 		moveEnemiesDown();
-		checkLaserEnemyIntersect();
+		moveLasersUp();
+		checkLaserHitEnemy();
 		checkPlayerEnemyIntersect();
 		checkEnemyReachBottom();	
+		
+		stepCounter++;
 	}
 	
 	private void createEnemy() {
@@ -122,7 +123,7 @@ public class Battle {
 		}
 	}
 	
-	private void checkLaserEnemyIntersect() {
+	private void checkLaserHitEnemy() {
 		outer: for (Node enemyNode : enemies.getChildren()) {
 			Rectangle enemy = (Rectangle) enemyNode;
 			for (Node laserNode : lasers.getChildren()) {
@@ -153,12 +154,6 @@ public class Battle {
 			}
 		}
 	}
-		
-	private void shootLaser() {
-		Laser laserObject = new Laser(LASER_SIZE, player.getX(), player.getY(), PLAYER_WIDTH);
-		Rectangle laser = laserObject.getLaser();	
-		lasers.getChildren().add(laser);
-	}
 	
 	private void handleKeyInput(KeyCode code) {
 		switch(code) {
@@ -172,18 +167,8 @@ public class Battle {
 					player.setX(player.getX() + ARROW_SHIFT);
 				}
 				break;
-			case UP:
-				if (player.getY() > 0) {
-					player.setY(player.getY() - ARROW_SHIFT);
-				}
-				break;
-			case DOWN:
-				if (player.getY() + PLAYER_HEIGHT < Main.SIZE) {
-					player.setY(player.getY() + ARROW_SHIFT);
-				}
-				break;
-			case SPACE:
-				shootLaser();
+			case W:
+				shootLaser("UP");
 				break;
 			case Q:
 				// quit Battle and go back to Menu
@@ -192,5 +177,11 @@ public class Battle {
 			default:
 				// do nothing
 		}
+	}
+	
+	private void shootLaser(String direction) {
+		Laser laserObject = new Laser(LASER_SIZE, Color.YELLOW, direction, player);
+		Rectangle laser = laserObject.getLaser();	
+		lasers.getChildren().add(laser);
 	}
 }

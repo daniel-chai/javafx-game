@@ -54,17 +54,23 @@ public class SceneManager {
 		Scene battleScene = battle.init(Main.SIZE, Main.SIZE, level);
 		stage.setScene(battleScene);
 		
-		// sets the game's loop
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> battle.step(SECOND_DELAY));
-		animation = new Timeline();
-		animation.setCycleCount(Timeline.INDEFINITE);
-		animation.getKeyFrames().add(frame);
-		animation.play();
+		setGameLoop(frame);
 	}
 	
 	public static void goToBossBattleScene() {
 		BossBattle bossBattle = new BossBattle();
 		Scene bossBattleScene = bossBattle.init(Main.SIZE, Main.SIZE);
 		stage.setScene(bossBattleScene);
+		
+		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> bossBattle.step(SECOND_DELAY));
+		setGameLoop(frame);
+	}
+	
+	private static void setGameLoop(KeyFrame frame) {
+		animation = new Timeline();
+		animation.setCycleCount(Timeline.INDEFINITE);
+		animation.getKeyFrames().add(frame);
+		animation.play();
 	}
 }
