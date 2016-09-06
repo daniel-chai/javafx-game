@@ -11,14 +11,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class BossBattle {
-	private static final int PLAYER_WIDTH = 50;
-	private static final int PLAYER_HEIGHT = 50;
-	private static final int ARROW_SHIFT = 10;
-	private static final int ENEMYBOSS_WIDTH = 50;
-	private static final int ENEMYBOSS_HEIGHT = 50;
-	private static final int ENEMY_SHIFT = 10;
-	private static final int PLAYER_LASER_SIZE = 10;
-	private static final int ENEMY_LASER_SIZE = 20;
+	public static final int PLAYER_WIDTH = 50;
+	public static final int PLAYER_HEIGHT = 50;
+	public static final int ARROW_SHIFT = 10;
+	public static final int ENEMYBOSS_WIDTH = 50;
+	public static final int ENEMYBOSS_HEIGHT = 50;
+	public static final int ENEMY_SHIFT = 10;
+	public static final int PLAYER_LASER_SIZE = 10;
+	public static final int ENEMY_LASER_SIZE = 20;
 	
 	private Scene bossBattleScene;
 	private Group root;
@@ -44,7 +44,7 @@ public class BossBattle {
 		addEnemyBoss();
 		addLasers();
 		
-		bossBattleScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+		bossBattleScene.setOnKeyPressed(e -> handleKeyPressed(e.getCode()));
 		
 		return bossBattleScene;
 	}
@@ -120,11 +120,8 @@ public class BossBattle {
 	}
 	
 	private boolean isEnemyBossInCenter(int min, int max) {
-		if (enemyBoss.getX() >= min && enemyBoss.getX() + ENEMYBOSS_WIDTH <= max &&
-				enemyBoss.getY() >= min && enemyBoss.getY() + ENEMYBOSS_HEIGHT <= max) {
-			return true;
-		}
-		return false;
+		return enemyBoss.getX() >= min && enemyBoss.getX() + ENEMYBOSS_WIDTH <= max &&
+				enemyBoss.getY() >= min && enemyBoss.getY() + ENEMYBOSS_HEIGHT <= max;
 	}
 	
 	private void moveEnemyBossToCenter(int min, int max) {
@@ -144,7 +141,7 @@ public class BossBattle {
 	
 	private void moveEnemyBossRandomly() {
 		int random = generateRandomIntFrom0To3();
-		switch(random) {
+		switch (random) {
 			case 0: 
 				// move left
 				enemyBoss.setX(enemyBoss.getX() - ENEMY_SHIFT);
@@ -211,6 +208,7 @@ public class BossBattle {
 			Rectangle laser = (Rectangle) laserNode;
 			if (laser.getBoundsInParent().intersects(enemyBoss.getBoundsInParent())) {
 				// TODO: player laser hits enemy
+				SceneManager.goToGameWonScene(); 	// test
 			}
 		}
 	}
@@ -243,8 +241,8 @@ public class BossBattle {
 		}
 	}
 	
-	private void handleKeyInput(KeyCode code) {
-		switch(code) {
+	private void handleKeyPressed(KeyCode code) {
+		switch (code) {
 			case LEFT:
 				if (player.getX() > 0) {
 					player.setX(player.getX() - ARROW_SHIFT);

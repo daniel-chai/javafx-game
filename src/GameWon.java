@@ -6,30 +6,30 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-public class GameOver implements SceneInterface {
-	private Scene gameOverScene;
+public class GameWon implements SceneInterface {
+	private Scene gameWonScene;
 	private Group root;
 	
 	/**
-	 * Creates the GameOver Scene
+	 * Creates GameWon scene
 	 */
 	public Scene init(int width, int height) {
 		root = new Group();
-		gameOverScene = new Scene(root, width, height, Color.AZURE);
+		gameWonScene = new Scene(root, width, height, Color.AZURE);
 		
-		addGameOverText();
+		addGameWonText();
 		addMenuButton();
 		
-		return gameOverScene;
+		return gameWonScene;
 	}
 	
-	private void addGameOverText() {
-		Text gameOverText = new Text();
-		gameOverText.setX(50);
-		gameOverText.setY(50);
-		gameOverText.setText("GAME OVER");
+	private void addGameWonText() {
+		Text gameWonText = new Text();
+		gameWonText.setX(50);
+		gameWonText.setY(50);
+		gameWonText.setText("You won the game! Congrats!");
 		
-		root.getChildren().add(gameOverText);
+		root.getChildren().add(gameWonText);
 	}
 	
 	private void addMenuButton() {

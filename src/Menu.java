@@ -10,7 +10,7 @@ public class Menu implements SceneInterface {
 	private Group root;
 	
 	/**
-	 * adds the menu scene
+	 * Creates the menu scene
 	 */
 	public Scene init(int width, int height) {
 		root = new Group();

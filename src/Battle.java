@@ -7,11 +7,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class Battle {
-	private static final int PLAYER_WIDTH = 50;
-	private static final int PLAYER_HEIGHT = 50;
-	private static final int ARROW_SHIFT = 10;
-	private static final int ENEMY_SIZE = 50;
-	private static final int LASER_SIZE = 10;
+	public static final int PLAYER_WIDTH = 50;
+	public static final int PLAYER_HEIGHT = 50;
+	public static final int ARROW_SHIFT = 10;
+	public static final int ENEMY_SIZE = 50;
+	public static final int LASER_SIZE = 10;
 	
 	private Scene battleScene;
 	private Group root;
@@ -21,7 +21,7 @@ public class Battle {
 	
 	private int level;
 	private double timer = 0.0;
-	private double TIMER_LIMIT = 0.0;
+	private static double TIMER_LIMIT = 0.0;
 	private long stepCounter = 0L;
 	
 	/**
@@ -38,7 +38,7 @@ public class Battle {
 		addEnemies();
 		addLasers();
 		
-		battleScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+		battleScene.setOnKeyPressed(e -> handleKeyPressed(e.getCode()));
 		
 		return battleScene;
 	}
@@ -155,8 +155,8 @@ public class Battle {
 		}
 	}
 	
-	private void handleKeyInput(KeyCode code) {
-		switch(code) {
+	private void handleKeyPressed(KeyCode code) {
+		switch (code) {
 			case LEFT:
 				if (player.getX() > 0) {
 					player.setX(player.getX() - ARROW_SHIFT);
