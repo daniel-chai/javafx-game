@@ -6,17 +6,21 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
 public class NextLevel {
+	private SceneManager sceneManager;
 	private Scene nextLevelScene;
 	private Group root;
 	
 	private int level;
 	
+	public NextLevel(SceneManager sceneManager, int level) {
+		this.sceneManager = sceneManager;
+		this.level = level;
+	}
+	
 	/**
 	 * adds the NextLevel scene
 	 */
-	public Scene init(int width, int height, int level) {
-		this.level = level;
-		
+	public Scene init(int width, int height) {
 		root = new Group();
 		nextLevelScene = new Scene(root, width, height, Color.AZURE);
 		
@@ -41,10 +45,10 @@ public class NextLevel {
             @Override
             public void handle(ActionEvent event) {
             	if (isNextLevelBoss()) {
-            		SceneManager.goToBossBattleScene();
+            		sceneManager.goToBossBattleScene(sceneManager);
             	}
             	else {
-            		SceneManager.goToBattleScene(level);
+            		sceneManager.goToBattleScene(sceneManager, level);
             	}
             }
         });
@@ -53,6 +57,6 @@ public class NextLevel {
 	}
 	
 	private boolean isNextLevelBoss() {
-		return level >= 1 ? true : false;
+		return level >= 2 ? true : false;
 	}
 }

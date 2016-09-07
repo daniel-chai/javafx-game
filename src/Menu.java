@@ -6,8 +6,13 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
 public class Menu implements SceneInterface {
+	private SceneManager sceneManager;
 	private Scene menuScene;
 	private Group root;
+	
+	public Menu(SceneManager sceneManager) {
+		this.sceneManager = sceneManager;
+	}
 	
 	/**
 	 * Creates the menu scene
@@ -31,7 +36,7 @@ public class Menu implements SceneInterface {
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	SceneManager.goToBattleScene(0);
+            	sceneManager.goToBattleScene(sceneManager, 0);
             }
         });
         
@@ -47,7 +52,7 @@ public class Menu implements SceneInterface {
         instructButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	SceneManager.goToInstructionsScene();
+            	sceneManager.goToInstructionsScene(sceneManager);
             }
         });
         

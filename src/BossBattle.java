@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-public class BossBattle {
+public class BossBattle implements SceneInterface {
 	public static final int PLAYER_WIDTH = 50;
 	public static final int PLAYER_HEIGHT = 50;
 	public static final int ARROW_SHIFT = 10;
@@ -20,6 +20,7 @@ public class BossBattle {
 	public static final int PLAYER_LASER_SIZE = 10;
 	public static final int ENEMY_LASER_SIZE = 20;
 	
+	private SceneManager sceneManager;
 	private Scene bossBattleScene;
 	private Group root;
 	private Rectangle player;
@@ -29,6 +30,10 @@ public class BossBattle {
 	
 	private Map<Rectangle, String> laserDirection;
 	private long stepCounter = 0L;
+	
+	public BossBattle(SceneManager sceneManager) {
+		this.sceneManager = sceneManager;
+	}
 	
 	/**
 	 * Creates the boss battle scene
@@ -208,7 +213,7 @@ public class BossBattle {
 			Rectangle laser = (Rectangle) laserNode;
 			if (laser.getBoundsInParent().intersects(enemyBoss.getBoundsInParent())) {
 				// TODO: player laser hits enemy
-				SceneManager.goToGameWonScene(); 	// test
+				sceneManager.goToGameWonScene(sceneManager); 	// test
 			}
 		}
 	}
@@ -217,7 +222,7 @@ public class BossBattle {
 		for (Node laserNode : enemyLasers.getChildren()) {
 			Rectangle laser = (Rectangle) laserNode;
 			if (laser.getBoundsInParent().intersects(player.getBoundsInParent())) {
-				SceneManager.goToGameOverScene();
+				sceneManager.goToGameOverScene(sceneManager);
 			}
 		}
 	}
@@ -237,7 +242,7 @@ public class BossBattle {
 	
 	private void checkPlayerEnemyIntersect() {
 		if (player.getBoundsInParent().intersects(enemyBoss.getBoundsInParent())) {
-			SceneManager.goToGameOverScene();
+			sceneManager.goToGameOverScene(sceneManager);
 		}
 	}
 	
@@ -277,7 +282,7 @@ public class BossBattle {
 				break;
 			case Q:
 				// quit Battle and go back to Menu
-				SceneManager.goToMenuScene();
+				sceneManager.goToMenuScene(sceneManager);
 				break;
 			default:
 				// do nothing

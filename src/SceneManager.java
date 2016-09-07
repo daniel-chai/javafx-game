@@ -9,65 +9,61 @@ public class SceneManager {
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     
-    // TODO: NO STATIC VARIABLES!!!
-	private static Stage stage;
-	private static Timeline animation;
+	private Stage stage;
+	private Timeline animation;
 	
-	/**
-	 * Initiates the SceneManager
-	 */
-	public static void init(Stage primaryStage) {
-		animation = new Timeline();
-		stage = primaryStage;
+	public SceneManager(Stage primaryStage) {
+		this.stage = primaryStage;
+		this.animation = new Timeline();
 		stage.show();
 	}
 	
-	public static void goToMenuScene() {
+	public void goToMenuScene(SceneManager sceneManager) {
 		animation.stop();
-		Menu menu = new Menu();
+		Menu menu = new Menu(sceneManager);
 		Scene menuScene = menu.init(Main.SIZE, Main.SIZE);
 		stage.setScene(menuScene);
 	}
 	
-	public static void goToInstructionsScene() {
+	public void goToInstructionsScene(SceneManager sceneManager) {
 		animation.stop();
-		Instructions instructions = new Instructions();
+		Instructions instructions = new Instructions(sceneManager);
 		Scene instructionsScene = instructions.init(Main.SIZE, Main.SIZE);
 		stage.setScene(instructionsScene);
 	}
 	
-	public static void goToGameOverScene() {
+	public void goToGameOverScene(SceneManager sceneManager) {
 		animation.stop();
-		GameOver gameOver = new GameOver();
+		GameOver gameOver = new GameOver(sceneManager);
 		Scene gameOverScene = gameOver.init(Main.SIZE, Main.SIZE);
 		stage.setScene(gameOverScene);
 	}
 	
-	public static void goToGameWonScene() {
+	public void goToGameWonScene(SceneManager sceneManager) {
 		animation.stop();
-		GameWon gameWon = new GameWon();
+		GameWon gameWon = new GameWon(sceneManager);
 		Scene gameWonScene = gameWon.init(Main.SIZE, Main.SIZE);
 		stage.setScene(gameWonScene);
 	}
 	
-	public static void goToNextLevelScene(int level) {
+	public void goToNextLevelScene(SceneManager sceneManager, int level) {
 		animation.stop();
-		NextLevel nextLevel = new NextLevel();
-		Scene nextLevelScene = nextLevel.init(Main.SIZE, Main.SIZE, level);
+		NextLevel nextLevel = new NextLevel(sceneManager, level);
+		Scene nextLevelScene = nextLevel.init(Main.SIZE, Main.SIZE);
 		stage.setScene(nextLevelScene);
 	}
 	
-	public static void goToBattleScene(int level) {
-		Battle battle = new Battle();
-		Scene battleScene = battle.init(Main.SIZE, Main.SIZE, level);
+	public void goToBattleScene(SceneManager sceneManager, int level) {
+		Battle battle = new Battle(sceneManager, level);
+		Scene battleScene = battle.init(Main.SIZE, Main.SIZE);
 		stage.setScene(battleScene);
 		
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> battle.step(SECOND_DELAY));
 		setGameLoop(frame);
 	}
 	
-	public static void goToBossBattleScene() {
-		BossBattle bossBattle = new BossBattle();
+	public void goToBossBattleScene(SceneManager sceneManager) {
+		BossBattle bossBattle = new BossBattle(sceneManager);
 		Scene bossBattleScene = bossBattle.init(Main.SIZE, Main.SIZE);
 		stage.setScene(bossBattleScene);
 		
@@ -75,7 +71,7 @@ public class SceneManager {
 		setGameLoop(frame);
 	}
 	
-	private static void setGameLoop(KeyFrame frame) {
+	private void setGameLoop(KeyFrame frame) {
 		animation = new Timeline();
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);

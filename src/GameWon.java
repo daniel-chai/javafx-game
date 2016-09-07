@@ -7,8 +7,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class GameWon implements SceneInterface {
+	private SceneManager sceneManager;
 	private Scene gameWonScene;
 	private Group root;
+	
+	
+	public GameWon(SceneManager sceneManager) {
+		this.sceneManager = sceneManager;
+	}
 	
 	/**
 	 * Creates GameWon scene
@@ -41,7 +47,7 @@ public class GameWon implements SceneInterface {
 		menuButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	SceneManager.goToMenuScene();
+            	sceneManager.goToMenuScene(sceneManager);
             }
         });
 		

@@ -9,8 +9,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
     	primaryStage.setTitle(TITLE);
     	
-    	SceneManager.init(primaryStage);
-    	SceneManager.goToMenuScene();
+    	SceneManager sceneManager = new SceneManager(primaryStage);
+    	sceneManager.goToMenuScene(sceneManager);
     }
     
     public static void main(String[] args) {

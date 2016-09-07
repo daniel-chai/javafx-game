@@ -6,13 +6,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
-public class Battle {
+public class Battle implements SceneInterface {
 	public static final int PLAYER_WIDTH = 50;
 	public static final int PLAYER_HEIGHT = 50;
 	public static final int ARROW_SHIFT = 10;
 	public static final int ENEMY_SIZE = 50;
 	public static final int LASER_SIZE = 10;
 	
+	private SceneManager sceneManager;
 	private Scene battleScene;
 	private Group root;
 	private Rectangle player;
@@ -21,15 +22,18 @@ public class Battle {
 	
 	private int level;
 	private double timer = 0.0;
-	private static double TIMER_LIMIT = 0.0;
+	private static double TIMER_LIMIT = 1.0;
 	private long stepCounter = 0L;
+	
+	public Battle(SceneManager sceneManager, int level) {
+		this.sceneManager = sceneManager;
+		this.level = level;
+	}
 	
 	/**
 	 * Creates the battle scene
 	 */
-	public Scene init(int width, int height, int level) {
-		this.level = level;
-		
+	public Scene init(int width, int height) {
 		root = new Group();
 		battleScene = new Scene(root, width, height, Color.BLACK);
 		
@@ -105,7 +109,7 @@ public class Battle {
 		timer += elapsedTime;
 		if (timer > TIMER_LIMIT) {
 			// player wins level
-			SceneManager.goToNextLevelScene(level + 1);
+			sceneManager.goToNextLevelScene(sceneManager, level + 1);
 		}
 	}
 	
@@ -141,7 +145,7 @@ public class Battle {
 		for (Node enemyNode : enemies.getChildren()) {
 			Rectangle enemy = (Rectangle) enemyNode;
 			if (player.getBoundsInParent().intersects(enemy.getBoundsInParent())) {
-				SceneManager.goToGameOverScene();
+				sceneManager.goToGameOverScene(sceneManager);
 			}
 		}
 	}
@@ -150,7 +154,7 @@ public class Battle {
 		for (Node enemyNode : enemies.getChildren()) {
 			Rectangle enemy = (Rectangle) enemyNode;
 			if (enemy.getY() + ENEMY_SIZE > Main.SIZE) {
-				SceneManager.goToGameOverScene();
+				sceneManager.goToGameOverScene(sceneManager);
 			}
 		}
 	}
@@ -172,7 +176,7 @@ public class Battle {
 				break;
 			case Q:
 				// quit Battle and go back to Menu
-				SceneManager.goToMenuScene();
+				sceneManager.goToMenuScene(sceneManager);
 				break;
 			default:
 				// do nothing

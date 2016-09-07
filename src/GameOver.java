@@ -7,8 +7,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class GameOver implements SceneInterface {
+	private SceneManager sceneManager;
 	private Scene gameOverScene;
 	private Group root;
+	
+	public GameOver(SceneManager sceneManager) {
+		this.sceneManager = sceneManager;
+	}
 	
 	/**
 	 * Creates the GameOver Scene
@@ -41,7 +46,7 @@ public class GameOver implements SceneInterface {
 		menuButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-            	SceneManager.goToMenuScene();
+            	sceneManager.goToMenuScene(sceneManager);
             }
         });
 		
