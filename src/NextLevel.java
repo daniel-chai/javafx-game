@@ -30,17 +30,9 @@ public class NextLevel {
 	}
 	
 	private void addNextLevelButton() {
-		Button nextLevelButton = new Button();
-        nextLevelButton.setLayoutX(50);
-        nextLevelButton.setLayoutY(50);
-        
-        if (isNextLevelBoss()) {
-        	nextLevelButton.setText("Go to boss level");
-        }
-        else {
-        	nextLevelButton.setText("Go to level " + level);
-        }
-        
+		String text = isNextLevelBoss() ? "Go to boss level" : "Go to level " + level;
+		Button nextLevelButton = UIGenerator.createButton(text, 50, 50);
+		
         nextLevelButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

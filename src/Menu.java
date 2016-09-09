@@ -22,17 +22,14 @@ public class Menu implements SceneInterface {
 		menuScene = new Scene(root, width, height, Color.AZURE);
 		
 		addStartButton();
-		addInstructButton();
+		addInstructionsButton();
 		
         return menuScene;
 	}
 	
 	private void addStartButton() {
-		Button startButton = new Button();
-        startButton.setText("Start Game");
-        startButton.setLayoutX(50);
-        startButton.setLayoutY(50);
-        
+		Button startButton = UIGenerator.createButton("Start Game", 50, 50);
+		
         startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -43,19 +40,16 @@ public class Menu implements SceneInterface {
         root.getChildren().add(startButton);
 	}
 	
-	private void addInstructButton() {
-		Button instructButton = new Button();
-        instructButton.setText("Instructions");
-        instructButton.setLayoutX(50);
-        instructButton.setLayoutY(100);
-        
-        instructButton.setOnAction(new EventHandler<ActionEvent>() {
+	private void addInstructionsButton() {
+		Button instructionsButton = UIGenerator.createButton("Instructions", 50, 100);
+		
+        instructionsButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
             	sceneManager.goToInstructionsScene(sceneManager);
             }
         });
         
-        root.getChildren().add(instructButton);
+        root.getChildren().add(instructionsButton);
 	}
 }

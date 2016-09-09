@@ -3,7 +3,7 @@ import javafx.stage.Stage;
  
 public class Main extends Application {
 	public static final String TITLE = "Laser Mania";
-	public static final int SIZE = 500;
+	public static final int SIZE = 600;
 	
     @Override
     public void start(Stage primaryStage) {

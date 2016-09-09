@@ -55,11 +55,8 @@ public class BossBattle implements SceneInterface {
 	}
 
 	private void addBossLevelText() {
-		Text bossLevelText = new Text();
+		Text bossLevelText = UIGenerator.createText("Boss Level", 10, Main.SIZE - 10, 15);
 		bossLevelText.setFill(Color.WHITE);
-		bossLevelText.setX(10);
-		bossLevelText.setY(Main.SIZE - 10);
-		bossLevelText.setText("Boss Level");
 		
 		root.getChildren().add(bossLevelText);
 	}

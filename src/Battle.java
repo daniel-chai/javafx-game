@@ -22,7 +22,7 @@ public class Battle implements SceneInterface {
 	
 	private int level;
 	private double timer = 0.0;
-	private static double TIMER_LIMIT = 1.0;
+	private static double TIMER_LIMIT = 5.0;
 	private long stepCounter = 0L;
 	
 	public Battle(SceneManager sceneManager, int level) {
@@ -48,11 +48,8 @@ public class Battle implements SceneInterface {
 	}
 	
 	private void addLevelText() {
-		Text levelText = new Text();
+		Text levelText = UIGenerator.createText("Level " + level, 10, Main.SIZE - 10, 15);
 		levelText.setFill(Color.WHITE);
-		levelText.setX(10);
-		levelText.setY(Main.SIZE - 10);
-		levelText.setText("Level " + level);
 		
 		root.getChildren().add(levelText);
 	}

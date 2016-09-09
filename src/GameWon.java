@@ -11,7 +11,6 @@ public class GameWon implements SceneInterface {
 	private Scene gameWonScene;
 	private Group root;
 	
-	
 	public GameWon(SceneManager sceneManager) {
 		this.sceneManager = sceneManager;
 	}
@@ -30,19 +29,12 @@ public class GameWon implements SceneInterface {
 	}
 	
 	private void addGameWonText() {
-		Text gameWonText = new Text();
-		gameWonText.setX(50);
-		gameWonText.setY(50);
-		gameWonText.setText("You won the game! Congrats!");
-		
+		Text gameWonText = UIGenerator.createText("You won the game! Congrats!", 50, 50);
 		root.getChildren().add(gameWonText);
 	}
 	
 	private void addMenuButton() {
-		Button menuButton = new Button();
-		menuButton.setLayoutX(50);
-		menuButton.setLayoutY(100);
-		menuButton.setText("Go to Menu");
+		Button menuButton = UIGenerator.createButton("Go to Menu", 50, 100);
 		
 		menuButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override

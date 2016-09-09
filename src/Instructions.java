@@ -30,21 +30,16 @@ public class Instructions implements SceneInterface {
 	}
 	
 	private void addInstructionsText() {
-		Text instructionsText = new Text();
-		instructionsText.setX(50);
-		instructionsText.setY(50);
-		instructionsText.setText("Arrow keys to move.\n" + 
-								"Space to shoot lasers.\n" +
-								"Q to quit to menu.");
+		String text = "Arrow keys to move.\n" + 
+				"Space to shoot lasers.\n" +
+				"Q to quit to menu.";
+		Text instructionsText = UIGenerator.createText(text, 50, 50, 15);
 		
 		root.getChildren().add(instructionsText);
 	}
 	
 	private void addMenuButton() {
-		Button menuButton = new Button();
-        menuButton.setText("Back to Menu");
-        menuButton.setLayoutX(50);
-        menuButton.setLayoutY(100);
+		Button menuButton = UIGenerator.createButton("Back to Menu", 50, 100);
         
         menuButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override

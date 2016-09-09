@@ -29,19 +29,12 @@ public class GameOver implements SceneInterface {
 	}
 	
 	private void addGameOverText() {
-		Text gameOverText = new Text();
-		gameOverText.setX(50);
-		gameOverText.setY(50);
-		gameOverText.setText("GAME OVER");
-		
+		Text gameOverText = UIGenerator.createText("GAME OVER", 50, 50);
 		root.getChildren().add(gameOverText);
 	}
 	
 	private void addMenuButton() {
-		Button menuButton = new Button();
-		menuButton.setLayoutX(50);
-		menuButton.setLayoutY(100);
-		menuButton.setText("Go to Menu");
+		Button menuButton = UIGenerator.createButton("Go to Menu", 50, 100);
 		
 		menuButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
