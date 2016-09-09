@@ -9,16 +9,7 @@ public class EnemyBoss {
 	public EnemyBoss(int width, int height) {
 		this.width = width;
 		this.height = height;
-		init();	
-	}
-	
-	private void init() {
-		enemyBoss = new Rectangle();
-		enemyBoss.setFill(Color.RED);
-		enemyBoss.setWidth(width);
-		enemyBoss.setHeight(height);
-		enemyBoss.setX(Main.SIZE / 2 - width / 2);
-		enemyBoss.setY(25);	
+		this.enemyBoss = UIGenerator.createRectangle(Color.RED, Main.SIZE / 2 - width / 2, 25, width, height);
 	}
 	
 	public Rectangle getEnemyBoss() {

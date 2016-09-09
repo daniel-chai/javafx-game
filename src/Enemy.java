@@ -11,24 +11,15 @@ public class Enemy {
 	public Enemy(int width, int height) {
 		this.width = width;
 		this.height = height;
-		init();
+		this.enemy = UIGenerator.createRectangle(Color.RED, generateRandomEnemyX(), 0, width, height);
 	}
 	
-	private void init() {
-		enemy = new Rectangle();
-		enemy.setFill(Color.RED);
-		enemy.setWidth(width);
-		enemy.setHeight(height);
-		enemy.setX(generateRandomEnemyX());
-		enemy.setY(0);	
+	public Rectangle getEnemy() {
+		return enemy;
 	}
 	
 	private double generateRandomEnemyX() {
 		Random r = new Random();
 		return (Main.SIZE - width) * r.nextDouble();
-	}
-	
-	public Rectangle getEnemy() {
-		return enemy;
 	}
 }

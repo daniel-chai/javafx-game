@@ -1,3 +1,5 @@
+import java.awt.geom.Point2D;
+
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -11,37 +13,31 @@ public class Laser {
 		this.size = size;
 		this.color = color;
 		this.direction = direction;
-		init();
-		initPosition(r.getX(), r.getY(), r.getWidth(), r.getHeight());
-	}
-	
-	private void init() {
-		laser = new Rectangle();
-		laser.setFill(color);
-		laser.setWidth(size);
-		laser.setHeight(size);
-	}
-	
-	private void initPosition(double X, double Y, double width, double height) {
-		if (direction.equals("UP")) {
-			laser.setX(X + width / 2 - size / 2);
-			laser.setY(Y - size);
-		}
-		if (direction.equals("DOWN")) {
-			laser.setX(X + width / 2 - size / 2);
-			laser.setY(Y + height);
-		}
-		if (direction.equals("LEFT")) {
-			laser.setX(X - size);
-			laser.setY(Y + height / 2 - size / 2);
-		}
-		if (direction.equals("RIGHT")) {
-			laser.setX(X + width);
-			laser.setY(Y + height / 2 - size / 2);
-		}
+		
+		Point2D.Double position = initPosition(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+		this.laser = UIGenerator.createRectangle(color, position.getX(), position.getY(), size, size);
 	}
 	
 	public Rectangle getLaser() {
 		return laser;
+	}
+	
+	private Point2D.Double initPosition(double X, double Y, double width, double height) {
+		Point2D.Double position = new Point2D.Double();
+		
+		if (direction.equals("UP")) {
+			position.setLocation(X + width / 2 - size / 2, Y - size);
+		}
+		if (direction.equals("DOWN")) {
+			position.setLocation(X + width / 2 - size / 2, Y + height);
+		}
+		if (direction.equals("LEFT")) {
+			position.setLocation(X - size, Y + height / 2 - size / 2);
+		}
+		if (direction.equals("RIGHT")) {
+			position.setLocation(X + width, Y + height / 2 - size / 2);
+		}
+		
+		return position;
 	}
 }

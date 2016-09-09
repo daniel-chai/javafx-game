@@ -1,4 +1,6 @@
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -37,5 +39,15 @@ public class UIGenerator {
 		
 		return buttonUI;
 	}
-
+	
+	public static Rectangle createRectangle(Color color, double x, double y, double width, double height) {
+		Rectangle rectangleUI = new Rectangle();
+		rectangleUI.setFill(color);
+		rectangleUI.setX(x);
+		rectangleUI.setY(y);
+		rectangleUI.setWidth(width);
+		rectangleUI.setHeight(height);
+		
+		return rectangleUI;
+	}
 }

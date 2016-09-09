@@ -9,16 +9,7 @@ public class Player {
 	public Player(int width, int height) {
 		this.width = width;
 		this.height = height;
-		init();
-	}
-	
-	private void init() {
-		player = new Rectangle();
-		player.setFill(Color.GREEN);
-		player.setWidth(width);
-		player.setHeight(height);
-		player.setX(Main.SIZE / 2 - width / 2);
-		player.setY(Main.SIZE - height - 25);	
+		this.player = UIGenerator.createRectangle(Color.GREEN, Main.SIZE / 2 - width / 2, Main.SIZE - height - 25, width, height);
 	}
 	
 	public Rectangle getPlayer() {
