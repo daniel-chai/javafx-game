@@ -26,9 +26,9 @@ public class EnemyBoss {
 	 * If enemy boss is in center: move randomly
 	 */
 	public void moveEnemyBoss() {
-		int centerBoxSize = 200;
-		int min = Main.SIZE / 2 - centerBoxSize / 2;
-		int max = Main.SIZE / 2 + centerBoxSize / 2;
+		double centerBoxSize = 200;
+		double min = Main.SIZE / 2 - centerBoxSize / 2;
+		double max = Main.SIZE / 2 + centerBoxSize / 2;
 		
 		if (isEnemyBossInCenter(min, max)) {
 			moveEnemyBossRandomly();
@@ -38,44 +38,41 @@ public class EnemyBoss {
 		}
 	}
 	
-	private boolean isEnemyBossInCenter(int min, int max) {
+	private boolean isEnemyBossInCenter(double min, double max) {
 		return enemyBoss.getX() >= min && enemyBoss.getX() + EnemyBoss.WIDTH <= max &&
 				enemyBoss.getY() >= min && enemyBoss.getY() + EnemyBoss.HEIGHT <= max;
 	}
 	
-	private void moveEnemyBossToCenter(int min, int max) {
+	private void moveEnemyBossToCenter(double min, double max) {
 		if (enemyBoss.getX() < min) {
-			enemyBoss.setX(enemyBoss.getX() + MOVE_SHIFT);
+			moveRight();
 		}
 		if (enemyBoss.getX() + EnemyBoss.WIDTH > max) {
-			enemyBoss.setX(enemyBoss.getX() - MOVE_SHIFT);
+			moveLeft();
 		}
 		if (enemyBoss.getY() < min) {
-			enemyBoss.setY(enemyBoss.getY() + MOVE_SHIFT);
+			moveDown();
 		}
 		if (enemyBoss.getY() + EnemyBoss.HEIGHT > max) {
-			enemyBoss.setY(enemyBoss.getY() - MOVE_SHIFT);
+			moveUp();
 		}
-	}
+	}	
 	
 	private void moveEnemyBossRandomly() {
 		int random = generateRandomIntFrom0To3();
+		
 		switch (random) {
 			case 0: 
-				// move left
-				enemyBoss.setX(enemyBoss.getX() - MOVE_SHIFT);
+				moveLeft();
 				break;
 			case 1:
-				// move right
-				enemyBoss.setX(enemyBoss.getX() + MOVE_SHIFT);
+				moveRight();
 				break;
 			case 2:
-				// move up
-				enemyBoss.setY(enemyBoss.getY() - MOVE_SHIFT);
+				moveUp();
 				break;
 			case 3:
-				enemyBoss.setY(enemyBoss.getY() + MOVE_SHIFT);
-				// move down
+				moveDown();
 				break;
 			default:
 				// do nothing
@@ -85,5 +82,21 @@ public class EnemyBoss {
 	private int generateRandomIntFrom0To3() {
 		Random r = new Random();
 		return r.nextInt(4);
+	}
+	
+	private void moveLeft() {
+		enemyBoss.setX(enemyBoss.getX() - MOVE_SHIFT);
+	}
+	
+	private void moveRight() {
+		enemyBoss.setX(enemyBoss.getX() + MOVE_SHIFT);
+	}
+	
+	private void moveUp() {
+		enemyBoss.setY(enemyBoss.getY() - MOVE_SHIFT);
+	}
+	
+	private void moveDown() {
+		enemyBoss.setY(enemyBoss.getY() + MOVE_SHIFT);
 	}
 }

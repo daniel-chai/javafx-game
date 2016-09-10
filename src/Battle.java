@@ -47,6 +47,14 @@ public class Battle implements SceneInterface {
 		return battleScene;
 	}
 	
+	private void playerLoses() {
+		sceneManager.goToGameOverScene(sceneManager);
+	}
+	
+	private void playerWinsLevel() {
+		sceneManager.goToNextLevelScene(sceneManager, level + 1);
+	}
+	
 	private void addLevelText() {
 		Text levelText = UIGenerator.createText("Level " + level, 10, Main.SIZE - 10, 15);
 		levelText.setFill(Color.WHITE);
@@ -109,8 +117,7 @@ public class Battle implements SceneInterface {
 	private void checkTimeUp(double elapsedTime) {
 		timer += elapsedTime;
 		if (timer > TIMER_LIMIT) {
-			// player wins level
-			sceneManager.goToNextLevelScene(sceneManager, level + 1);
+			playerWinsLevel();
 		}
 	}
 	
@@ -153,8 +160,7 @@ public class Battle implements SceneInterface {
 		for (Node enemyNode : enemies.getChildren()) {
 			Rectangle enemy = (Rectangle) enemyNode;
 			if (player.getBoundsInParent().intersects(enemy.getBoundsInParent())) {
-				// player loses
-				sceneManager.goToGameOverScene(sceneManager);
+				playerLoses();
 			}
 		}
 	}
@@ -163,8 +169,7 @@ public class Battle implements SceneInterface {
 		for (Node enemyNode : enemies.getChildren()) {
 			Rectangle enemy = (Rectangle) enemyNode;
 			if (enemy.getY() + Enemy.HEIGHT > Main.SIZE) {
-				// player loses
-				sceneManager.goToGameOverScene(sceneManager);
+				playerLoses();
 			}
 		}
 	}

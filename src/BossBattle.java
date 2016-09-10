@@ -47,7 +47,15 @@ public class BossBattle implements SceneInterface {
 		
 		return bossBattleScene;
 	}
+	
+	private void playerLoses() {
+		sceneManager.goToGameOverScene(sceneManager);
+	}
 
+	private void playerWins() {
+		sceneManager.goToGameWonScene(sceneManager);
+	}
+	
 	private void addBossLevelText() {
 		Text bossLevelText = UIGenerator.createText("Boss Level", 10, Main.SIZE - 10, 15);
 		bossLevelText.setFill(Color.WHITE);
@@ -149,8 +157,7 @@ public class BossBattle implements SceneInterface {
 		for (Node laserNode : playerLasers.getChildren()) {
 			Rectangle laser = (Rectangle) laserNode;
 			if (laser.getBoundsInParent().intersects(enemyBoss.getBoundsInParent())) {
-				// TODO: player laser hits enemy
-				sceneManager.goToGameWonScene(sceneManager); 	// test
+				playerWins();
 			}
 		}
 	}
@@ -159,8 +166,7 @@ public class BossBattle implements SceneInterface {
 		for (Node laserNode : enemyLasers.getChildren()) {
 			Rectangle laser = (Rectangle) laserNode;
 			if (laser.getBoundsInParent().intersects(player.getBoundsInParent())) {
-				// player loses
-				sceneManager.goToGameOverScene(sceneManager);
+				playerLoses();
 			}
 		}
 	}
@@ -180,8 +186,7 @@ public class BossBattle implements SceneInterface {
 	
 	private void checkPlayerEnemyIntersect() {
 		if (player.getBoundsInParent().intersects(enemyBoss.getBoundsInParent())) {
-			// player loses
-			sceneManager.goToGameOverScene(sceneManager);
+			playerLoses();
 		}
 	}
 	

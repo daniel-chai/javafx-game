@@ -4,6 +4,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Laser {
+	public static final double MOVE_SHIFT = 5;
+	
 	private Rectangle laser;
 	private double size;
 	private String direction;
@@ -23,16 +25,16 @@ public class Laser {
 	public void moveLaser() {
 		switch (direction) {
 			case "UP":
-				laser.setY(laser.getY() - 5);
+				laser.setY(laser.getY() - MOVE_SHIFT);
 				break;
 			case "DOWN":
-				laser.setY(laser.getY() + 5);
+				laser.setY(laser.getY() + MOVE_SHIFT);
 				break;
 			case "LEFT":
-				laser.setX(laser.getX() - 5);
+				laser.setX(laser.getX() - MOVE_SHIFT);
 				break;
 			case "RIGHT":
-				laser.setX(laser.getX() + 5);
+				laser.setX(laser.getX() + MOVE_SHIFT);
 				break;
 			default:
 				// do nothing

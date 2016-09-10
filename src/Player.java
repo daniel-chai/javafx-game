@@ -23,27 +23,43 @@ public class Player {
 	public void handlePlayerKey(KeyCode code) {
 		switch (code) {
 			case LEFT:
-				if (player.getX() > 0) {
-					player.setX(player.getX() - MOVE_SHIFT);
-				}
+				moveLeft();
 				break;
 			case RIGHT:
-				if (player.getX() + WIDTH < Main.SIZE) {
-					player.setX(player.getX() + MOVE_SHIFT);
-				}
+				moveRight();
 				break;
 			case UP:
-				if (player.getY() > 0) {
-					player.setY(player.getY() - MOVE_SHIFT);
-				}
+				moveUp();
 				break;
 			case DOWN:
-				if (player.getY() + HEIGHT < Main.SIZE) {
-					player.setY(player.getY() + MOVE_SHIFT);
-				}
+				moveDown();
 				break;
 			default:
 				// do nothing
+		}
+	}
+	
+	private void moveLeft() {
+		if (player.getX() > 0) {
+			player.setX(player.getX() - MOVE_SHIFT);
+		}
+	}
+	
+	private void moveRight() {
+		if (player.getX() + WIDTH < Main.SIZE) {
+			player.setX(player.getX() + MOVE_SHIFT);
+		}
+	}
+	
+	private void moveUp() {
+		if (player.getY() > 0) {
+			player.setY(player.getY() - MOVE_SHIFT);
+		}
+	}
+	
+	private void moveDown() {
+		if (player.getY() + HEIGHT < Main.SIZE) {
+			player.setY(player.getY() + MOVE_SHIFT);
 		}
 	}
 }
