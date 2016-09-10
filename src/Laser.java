@@ -5,16 +5,14 @@ import javafx.scene.shape.Rectangle;
 
 public class Laser {
 	private Rectangle laser;
-	private int size;
-	private Color color;
+	private double size;
 	private String direction;
 	
-	public Laser(int size, Color color, String direction, Rectangle r) {
+	public Laser(double size, Color color, String direction, Rectangle shooter) {
 		this.size = size;
-		this.color = color;
 		this.direction = direction;
 		
-		Point2D.Double position = initPosition(r.getX(), r.getY(), r.getWidth(), r.getHeight());
+		Point2D.Double position = initPosition(shooter.getX(), shooter.getY(), shooter.getWidth(), shooter.getHeight());
 		this.laser = UIGenerator.createRectangle(color, position.getX(), position.getY(), size, size);
 	}
 	
@@ -22,20 +20,43 @@ public class Laser {
 		return laser;
 	}
 	
-	private Point2D.Double initPosition(double X, double Y, double width, double height) {
+	public void moveLaser() {
+		switch (direction) {
+			case "UP":
+				laser.setY(laser.getY() - 5);
+				break;
+			case "DOWN":
+				laser.setY(laser.getY() + 5);
+				break;
+			case "LEFT":
+				laser.setX(laser.getX() - 5);
+				break;
+			case "RIGHT":
+				laser.setX(laser.getX() + 5);
+				break;
+			default:
+				// do nothing
+		}
+	}
+	
+	private Point2D.Double initPosition(double shooterX, double shooterY, double shooterWidth, double shooterHeight) {
 		Point2D.Double position = new Point2D.Double();
 		
-		if (direction.equals("UP")) {
-			position.setLocation(X + width / 2 - size / 2, Y - size);
-		}
-		if (direction.equals("DOWN")) {
-			position.setLocation(X + width / 2 - size / 2, Y + height);
-		}
-		if (direction.equals("LEFT")) {
-			position.setLocation(X - size, Y + height / 2 - size / 2);
-		}
-		if (direction.equals("RIGHT")) {
-			position.setLocation(X + width, Y + height / 2 - size / 2);
+		switch (direction) {
+			case "UP": 
+				position.setLocation(shooterX + shooterWidth / 2 - size / 2, shooterY - size);
+				break;
+			case "DOWN":
+				position.setLocation(shooterX + shooterWidth / 2 - size / 2, shooterY + shooterHeight);
+				break;
+			case "LEFT":
+				position.setLocation(shooterX - size, shooterY + shooterHeight / 2 - size / 2);
+				break;
+			case "RIGHT":
+				position.setLocation(shooterX + shooterWidth, shooterY + shooterHeight / 2 - size / 2);
+				break;
+			default:
+				// do nothing
 		}
 		
 		return position;

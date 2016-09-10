@@ -1,6 +1,6 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -11,24 +11,19 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class BossBattle implements SceneInterface {
-	public static final int PLAYER_WIDTH = 50;
-	public static final int PLAYER_HEIGHT = 50;
-	public static final int ARROW_SHIFT = 10;
-	public static final int ENEMYBOSS_WIDTH = 50;
-	public static final int ENEMYBOSS_HEIGHT = 50;
-	public static final int ENEMY_SHIFT = 10;
-	public static final int PLAYER_LASER_SIZE = 10;
-	public static final int ENEMY_LASER_SIZE = 20;
-	
 	private SceneManager sceneManager;
 	private Scene bossBattleScene;
 	private Group root;
+	
+	private Player playerObject;
 	private Rectangle player;
+	private EnemyBoss enemyBossObject;
 	private Rectangle enemyBoss;
+	private Set<Laser> playerLaserObjects;
 	private Group playerLasers;
+	private Set<Laser> enemyLaserObjects;
 	private Group enemyLasers;
 	
-	private Map<Rectangle, String> laserDirection;
 	private long stepCounter = 0L;
 	
 	public BossBattle(SceneManager sceneManager) {
@@ -38,16 +33,15 @@ public class BossBattle implements SceneInterface {
 	/**
 	 * Creates the boss battle scene
 	 */
-	public Scene init(int width, int height) {
-		laserDirection = new HashMap<Rectangle, String>();
-		
+	public Scene init(int width, int height) {		
 		root = new Group();
 		bossBattleScene = new Scene(root, width, height, Color.BLACK);
 		
 		addBossLevelText();
 		addPlayer();
 		addEnemyBoss();
-		addLasers();
+		addPlayerLasers();
+		addEnemyLasers();
 		
 		bossBattleScene.setOnKeyPressed(e -> handleKeyPressed(e.getCode()));
 		
@@ -62,22 +56,44 @@ public class BossBattle implements SceneInterface {
 	}
 	
 	private void addPlayer() {
-		Player playerObject = new Player(PLAYER_WIDTH, PLAYER_HEIGHT);
+		playerObject = new Player();
 		player = playerObject.getPlayer();
 		root.getChildren().add(player);
 	}
 	
 	private void addEnemyBoss() {
-		EnemyBoss enemyBossObject = new EnemyBoss(ENEMYBOSS_WIDTH, ENEMYBOSS_HEIGHT);
+		enemyBossObject = new EnemyBoss();
 		enemyBoss = enemyBossObject.getEnemyBoss();
 		root.getChildren().add(enemyBoss);
 	}
 	
-	private void addLasers() {
+	private void addPlayerLasers() {
+		playerLaserObjects = new HashSet<Laser>();
+	}
+	
+	private void addEnemyLasers() {
+		enemyLaserObjects = new HashSet<Laser>();
+	}
+	
+	private void updatePlayerLasers() {
+		root.getChildren().remove(playerLasers);
 		playerLasers = new Group();
-		root.getChildren().add(playerLasers);
 		
+		for (Laser playerLaserObject : playerLaserObjects) {
+			playerLasers.getChildren().add(playerLaserObject.getLaser());
+		}
+		
+		root.getChildren().add(playerLasers);
+	}
+	
+	private void updateEnemyLasers() {
+		root.getChildren().remove(enemyLasers);
 		enemyLasers = new Group();
+		
+		for (Laser enemyLaserObject : enemyLaserObjects) {
+			enemyLasers.getChildren().add(enemyLaserObject.getLaser());
+		}
+		
 		root.getChildren().add(enemyLasers);
 	}
 	
@@ -95,7 +111,8 @@ public class BossBattle implements SceneInterface {
 			shootEnemyLaser("RIGHT");
 		}
 		
-		moveLasers();
+		movePlayerLasers();
+		moveEnemyLasers();
 		checkPlayerLaserHitEnemy();
 		checkEnemyLaserHitPlayer();
 		checkLaserIntersect();
@@ -104,106 +121,29 @@ public class BossBattle implements SceneInterface {
 		stepCounter++;
 	}
 	
-	/**
-	 * If enemy boss is not in center: move towards center
-	 * If enemy boss is in center: move randomly
-	 */
 	private void moveEnemyBoss() {
-		int centerBoxSize = 200;
-		int min = Main.SIZE / 2 - centerBoxSize / 2;
-		int max = Main.SIZE / 2 + centerBoxSize / 2;
-		
-		if (isEnemyBossInCenter(min, max)) {
-			moveEnemyBossRandomly();
-		}
-		else {
-			moveEnemyBossToCenter(min, max);
-		}
-	}
-	
-	private boolean isEnemyBossInCenter(int min, int max) {
-		return enemyBoss.getX() >= min && enemyBoss.getX() + ENEMYBOSS_WIDTH <= max &&
-				enemyBoss.getY() >= min && enemyBoss.getY() + ENEMYBOSS_HEIGHT <= max;
-	}
-	
-	private void moveEnemyBossToCenter(int min, int max) {
-		if (enemyBoss.getX() < min) {
-			enemyBoss.setX(enemyBoss.getX() + ENEMY_SHIFT);
-		}
-		if (enemyBoss.getX() + ENEMYBOSS_WIDTH > max) {
-			enemyBoss.setX(enemyBoss.getX() - ENEMY_SHIFT);
-		}
-		if (enemyBoss.getY() < min) {
-			enemyBoss.setY(enemyBoss.getY() + ENEMY_SHIFT);
-		}
-		if (enemyBoss.getY() + ENEMYBOSS_HEIGHT > max) {
-			enemyBoss.setY(enemyBoss.getY() - ENEMY_SHIFT);
-		}
-	}
-	
-	private void moveEnemyBossRandomly() {
-		int random = generateRandomIntFrom0To3();
-		switch (random) {
-			case 0: 
-				// move left
-				enemyBoss.setX(enemyBoss.getX() - ENEMY_SHIFT);
-				break;
-			case 1:
-				// move right
-				enemyBoss.setX(enemyBoss.getX() + ENEMY_SHIFT);
-				break;
-			case 2:
-				// move up
-				enemyBoss.setY(enemyBoss.getY() - ENEMY_SHIFT);
-				break;
-			case 3:
-				enemyBoss.setY(enemyBoss.getY() + ENEMY_SHIFT);
-				// move down
-				break;
-			default:
-				// do nothing
-		}
-	}
-	
-	private int generateRandomIntFrom0To3() {
-		Random r = new Random();
-		return r.nextInt(4);
+		enemyBossObject.moveEnemyBoss();
 	}
 	
 	private void shootEnemyLaser(String direction) {
-		Laser laserObject = new Laser(ENEMY_LASER_SIZE, Color.PINK, direction, enemyBoss);
-		Rectangle laser = laserObject.getLaser();	
-		enemyLasers.getChildren().add(laser);
-		
-		laserDirection.put(laser, direction);
+		Laser enemyLaserObject = new Laser(EnemyBoss.LASER_SIZE, Color.PINK, direction, enemyBoss);
+		enemyLaserObjects.add(enemyLaserObject);
+		updateEnemyLasers();
 	}
 	
-	private void moveLasers() {
-		for (Node laserNode : playerLasers.getChildren()) {
-			moveSingleLaser(laserNode);
+	private void movePlayerLasers() {
+		for (Laser playerLaserObject : playerLaserObjects) {
+			playerLaserObject.moveLaser();
 		}
-		for (Node laserNode : enemyLasers.getChildren()) {
-			moveSingleLaser(laserNode);
-		}
+		updatePlayerLasers();
 	}
 	
-	private void moveSingleLaser(Node laserNode) {
-		Rectangle laser = (Rectangle) laserNode;
-		String direction = laserDirection.get(laser);
-		
-		if (direction.equals("UP")) {
-			laser.setY(laser.getY() - 5);
+	private void moveEnemyLasers() {
+		for (Laser enemyLaserObject : enemyLaserObjects) {
+			enemyLaserObject.moveLaser();
 		}
-		if (direction.equals("DOWN")) {
-			laser.setY(laser.getY() + 5);
-		}
-		if (direction.equals("LEFT")) {
-			laser.setX(laser.getX() - 5);
-		}
-		if (direction.equals("RIGHT")) {
-			laser.setX(laser.getX() + 5);
-		}
-	} 
+		updateEnemyLasers();
+	}
 	
 	private void checkPlayerLaserHitEnemy() {
 		for (Node laserNode : playerLasers.getChildren()) {
@@ -219,6 +159,7 @@ public class BossBattle implements SceneInterface {
 		for (Node laserNode : enemyLasers.getChildren()) {
 			Rectangle laser = (Rectangle) laserNode;
 			if (laser.getBoundsInParent().intersects(player.getBoundsInParent())) {
+				// player loses
 				sceneManager.goToGameOverScene(sceneManager);
 			}
 		}
@@ -239,33 +180,18 @@ public class BossBattle implements SceneInterface {
 	
 	private void checkPlayerEnemyIntersect() {
 		if (player.getBoundsInParent().intersects(enemyBoss.getBoundsInParent())) {
+			// player loses
 			sceneManager.goToGameOverScene(sceneManager);
 		}
 	}
 	
 	private void handleKeyPressed(KeyCode code) {
 		switch (code) {
-			case LEFT:
-				if (player.getX() > 0) {
-					player.setX(player.getX() - ARROW_SHIFT);
-				}
+			case Q:
+				// quit Battle and go back to Menu
+				sceneManager.goToMenuScene(sceneManager);
 				break;
-			case RIGHT:
-				if (player.getX() + PLAYER_WIDTH < Main.SIZE) {
-					player.setX(player.getX() + ARROW_SHIFT);
-				}
-				break;
-			case UP:
-				if (player.getY() > 0) {
-					player.setY(player.getY() - ARROW_SHIFT);
-				}
-				break;
-			case DOWN:
-				if (player.getY() + PLAYER_HEIGHT < Main.SIZE) {
-					player.setY(player.getY() + ARROW_SHIFT);
-				}
-				break;
-			case W:
+			case W: 
 				shootPlayerLaser("UP");
 				break;
 			case A:
@@ -277,20 +203,14 @@ public class BossBattle implements SceneInterface {
 			case D:
 				shootPlayerLaser("RIGHT");
 				break;
-			case Q:
-				// quit Battle and go back to Menu
-				sceneManager.goToMenuScene(sceneManager);
-				break;
 			default:
-				// do nothing
+				playerObject.handlePlayerKey(code);
 		}
 	}
 	
 	private void shootPlayerLaser(String direction) {
-		Laser laserObject = new Laser(PLAYER_LASER_SIZE, Color.YELLOW, direction, player);
-		Rectangle laser = laserObject.getLaser();	
-		playerLasers.getChildren().add(laser);
-		
-		laserDirection.put(laser, direction);
-	}
+		Laser playerLaserObject = new Laser(Player.LASER_SIZE, Color.YELLOW, direction, player);
+		playerLaserObjects.add(playerLaserObject);
+		updatePlayerLasers();
+	}	
 }

@@ -1,3 +1,6 @@
+import java.util.HashSet;
+import java.util.Set;
+
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -7,22 +10,19 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 public class Battle implements SceneInterface {
-	public static final int PLAYER_WIDTH = 50;
-	public static final int PLAYER_HEIGHT = 50;
-	public static final int ARROW_SHIFT = 10;
-	public static final int ENEMY_SIZE = 50;
-	public static final int LASER_SIZE = 10;
-	
 	private SceneManager sceneManager;
 	private Scene battleScene;
 	private Group root;
+	
+	private Player playerObject;
 	private Rectangle player;
 	private Group enemies;
-	private Group lasers;
+	private Set<Laser> playerLaserObjects;
+	private Group playerLasers;
 	
 	private int level;
 	private double timer = 0.0;
-	private static double TIMER_LIMIT = 5.0;
+	private static double TIMER_LIMIT = 10.0;
 	private long stepCounter = 0L;
 	
 	public Battle(SceneManager sceneManager, int level) {
@@ -40,7 +40,7 @@ public class Battle implements SceneInterface {
 		addLevelText();
 		addPlayer();
 		addEnemies();
-		addLasers();
+		addPlayerLasers();
 		
 		battleScene.setOnKeyPressed(e -> handleKeyPressed(e.getCode()));
 		
@@ -55,7 +55,7 @@ public class Battle implements SceneInterface {
 	}
 	
 	private void addPlayer() {
-		Player playerObject = new Player(PLAYER_WIDTH, PLAYER_HEIGHT);
+		playerObject = new Player();
 		player = playerObject.getPlayer();
 		root.getChildren().add(player);
 	}
@@ -65,9 +65,19 @@ public class Battle implements SceneInterface {
 		root.getChildren().add(enemies);
 	}
 	
-	private void addLasers() {
-		lasers = new Group();
-		root.getChildren().add(lasers);
+	private void addPlayerLasers() {
+		playerLaserObjects = new HashSet<Laser>();
+	}
+	
+	private void updatePlayerLasers() {
+		root.getChildren().remove(playerLasers);
+		playerLasers = new Group();
+		
+		for (Laser playerLaserObject : playerLaserObjects) {
+			playerLasers.getChildren().add(playerLaserObject.getLaser());
+		}
+		
+		root.getChildren().add(playerLasers);
 	}
 	
 	private int getEnemyCreationRate() {
@@ -87,19 +97,13 @@ public class Battle implements SceneInterface {
 			createEnemy();
 		}
 		
-		moveEnemiesDown();
-		moveLasersUp();
-		checkLaserHitEnemy();
+		moveEnemies();
+		movePlayerLasers();
+		checkPlayerLaserHitEnemy();
 		checkPlayerEnemyIntersect();
 		checkEnemyReachBottom();	
 		
 		stepCounter++;
-	}
-	
-	private void createEnemy() {
-		Enemy enemyObject = new Enemy(ENEMY_SIZE, ENEMY_SIZE);
-		Rectangle enemy = enemyObject.getEnemy();
-		enemies.getChildren().add(enemy);
 	}
 	
 	private void checkTimeUp(double elapsedTime) {
@@ -110,28 +114,35 @@ public class Battle implements SceneInterface {
 		}
 	}
 	
-	private void moveLasersUp() {
-		for (Node laserNode : lasers.getChildren()) {
-			Rectangle laser = (Rectangle) laserNode;
-			laser.setY(laser.getY() - 5);
-		}
+	private void createEnemy() {
+		Enemy enemyObject = new Enemy();
+		Rectangle enemy = enemyObject.getEnemy();
+		enemies.getChildren().add(enemy);
 	}
 	
-	private void moveEnemiesDown() {
+	private void moveEnemies() {
 		for (Node enemyNode : enemies.getChildren()) {
 			Rectangle enemy = (Rectangle) enemyNode;
 			enemy.setY(enemy.getY() + getEnemyTravelRate());
 		}
 	}
 	
-	private void checkLaserHitEnemy() {
+	private void movePlayerLasers() {
+		for (Laser playerLaserObject : playerLaserObjects) {
+			playerLaserObject.moveLaser();
+		}
+		updatePlayerLasers();
+	}
+	
+	private void checkPlayerLaserHitEnemy() {
 		outer: for (Node enemyNode : enemies.getChildren()) {
 			Rectangle enemy = (Rectangle) enemyNode;
-			for (Node laserNode : lasers.getChildren()) {
-				Rectangle laser = (Rectangle) laserNode;
-				if (laser.getBoundsInParent().intersects(enemy.getBoundsInParent())) {
+			for (Laser playerLaserObject : playerLaserObjects) {
+				Rectangle playerLaser = playerLaserObject.getLaser();
+				if (playerLaser.getBoundsInParent().intersects(enemy.getBoundsInParent())) {
 					enemies.getChildren().remove(enemyNode);
-					lasers.getChildren().remove(laserNode);
+					playerLaserObjects.remove(playerLaserObject);
+					updatePlayerLasers();
 					break outer;
 				}
 			}
@@ -142,6 +153,7 @@ public class Battle implements SceneInterface {
 		for (Node enemyNode : enemies.getChildren()) {
 			Rectangle enemy = (Rectangle) enemyNode;
 			if (player.getBoundsInParent().intersects(enemy.getBoundsInParent())) {
+				// player loses
 				sceneManager.goToGameOverScene(sceneManager);
 			}
 		}
@@ -150,7 +162,8 @@ public class Battle implements SceneInterface {
 	private void checkEnemyReachBottom() {
 		for (Node enemyNode : enemies.getChildren()) {
 			Rectangle enemy = (Rectangle) enemyNode;
-			if (enemy.getY() + ENEMY_SIZE > Main.SIZE) {
+			if (enemy.getY() + Enemy.HEIGHT > Main.SIZE) {
+				// player loses
 				sceneManager.goToGameOverScene(sceneManager);
 			}
 		}
@@ -158,31 +171,21 @@ public class Battle implements SceneInterface {
 	
 	private void handleKeyPressed(KeyCode code) {
 		switch (code) {
-			case LEFT:
-				if (player.getX() > 0) {
-					player.setX(player.getX() - ARROW_SHIFT);
-				}
-				break;
-			case RIGHT:
-				if (player.getX() + PLAYER_WIDTH < Main.SIZE) {
-					player.setX(player.getX() + ARROW_SHIFT);
-				}
-				break;
-			case W:
-				shootLaser("UP");
-				break;
 			case Q:
 				// quit Battle and go back to Menu
 				sceneManager.goToMenuScene(sceneManager);
 				break;
+			case W: 
+				shootPlayerLaser("UP");
+				break;
 			default:
-				// do nothing
+				playerObject.handlePlayerKey(code);
 		}
 	}
-	
-	private void shootLaser(String direction) {
-		Laser laserObject = new Laser(LASER_SIZE, Color.YELLOW, direction, player);
-		Rectangle laser = laserObject.getLaser();	
-		lasers.getChildren().add(laser);
-	}
+
+	private void shootPlayerLaser(String direction) {
+		Laser playerLaserObject = new Laser(Player.LASER_SIZE, Color.YELLOW, direction, player);
+		playerLaserObjects.add(playerLaserObject);
+		updatePlayerLasers();
+	}	
 }

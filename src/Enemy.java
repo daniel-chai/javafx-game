@@ -4,14 +4,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Enemy {
-	private Rectangle enemy;
-	private int width;
-	private int height;
+	public static final double WIDTH = 50;
+	public static final double HEIGHT = 50;
 	
-	public Enemy(int width, int height) {
-		this.width = width;
-		this.height = height;
-		this.enemy = UIGenerator.createRectangle(Color.RED, generateRandomEnemyX(), 0, width, height);
+	private Rectangle enemy;
+	
+	public Enemy() {
+		this.enemy = UIGenerator.createRectangle(Color.RED, generateRandomEnemyX(), 0, WIDTH, HEIGHT);
 	}
 	
 	public Rectangle getEnemy() {
@@ -20,6 +19,6 @@ public class Enemy {
 	
 	private double generateRandomEnemyX() {
 		Random r = new Random();
-		return (Main.SIZE - width) * r.nextDouble();
+		return (Main.SIZE - WIDTH) * r.nextDouble();
 	}
 }
