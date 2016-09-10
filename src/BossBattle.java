@@ -1,5 +1,4 @@
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import javafx.scene.Group;
@@ -8,23 +7,14 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 
-public class BossBattle implements SceneInterface {
-	private SceneManager sceneManager;
+public class BossBattle extends SimpleBattle {
 	private Scene bossBattleScene;
-	private Group root;
 	
-	private Player playerObject;
-	private Rectangle player;
 	private EnemyBoss enemyBossObject;
 	private Rectangle enemyBoss;
-	private Set<Laser> playerLaserObjects;
-	private Group playerLasers;
 	private Set<Laser> enemyLaserObjects;
 	private Group enemyLasers;
-	
-	private long stepCounter = 0L;
 	
 	public BossBattle(SceneManager sceneManager) {
 		this.sceneManager = sceneManager;
@@ -47,26 +37,13 @@ public class BossBattle implements SceneInterface {
 		
 		return bossBattleScene;
 	}
-	
-	private void playerLoses() {
-		sceneManager.goToGameOverScene(sceneManager);
-	}
 
 	private void playerWins() {
 		sceneManager.goToGameWonScene(sceneManager);
 	}
 	
 	private void addBossLevelText() {
-		Text bossLevelText = UIGenerator.createText("Boss Level", 10, Main.SIZE - 10, 15);
-		bossLevelText.setFill(Color.WHITE);
-		
-		root.getChildren().add(bossLevelText);
-	}
-	
-	private void addPlayer() {
-		playerObject = new Player();
-		player = playerObject.getPlayer();
-		root.getChildren().add(player);
+		addBottomLeftText("Boss Level");
 	}
 	
 	private void addEnemyBoss() {
@@ -75,34 +52,14 @@ public class BossBattle implements SceneInterface {
 		root.getChildren().add(enemyBoss);
 	}
 	
-	private void addPlayerLasers() {
-		playerLaserObjects = new HashSet<Laser>();
-	}
-	
 	private void addEnemyLasers() {
 		enemyLaserObjects = new HashSet<Laser>();
-	}
-	
-	private void updatePlayerLasers() {
-		root.getChildren().remove(playerLasers);
-		playerLasers = new Group();
-		
-		for (Laser playerLaserObject : playerLaserObjects) {
-			playerLasers.getChildren().add(playerLaserObject.getLaser());
-		}
-		
-		root.getChildren().add(playerLasers);
 	}
 	
 	private void updateEnemyLasers() {
 		root.getChildren().remove(enemyLasers);
 		enemyLasers = new Group();
-		
-		for (Laser enemyLaserObject : enemyLaserObjects) {
-			enemyLasers.getChildren().add(enemyLaserObject.getLaser());
-		}
-		
-		root.getChildren().add(enemyLasers);
+		transferLasersToGroup(enemyLaserObjects, enemyLasers);
 	}
 	
 	public void step(double elapsedTime) {
@@ -139,13 +96,6 @@ public class BossBattle implements SceneInterface {
 		updateEnemyLasers();
 	}
 	
-	private void movePlayerLasers() {
-		for (Laser playerLaserObject : playerLaserObjects) {
-			playerLaserObject.moveLaser();
-		}
-		updatePlayerLasers();
-	}
-	
 	private void moveEnemyLasers() {
 		for (Laser enemyLaserObject : enemyLaserObjects) {
 			enemyLaserObject.moveLaser();
@@ -154,47 +104,29 @@ public class BossBattle implements SceneInterface {
 	}
 	
 	private void checkPlayerLaserHitEnemy() {
-		for (Node laserNode : playerLasers.getChildren()) {
-			Rectangle laser = (Rectangle) laserNode;
-			if (laser.getBoundsInParent().intersects(enemyBoss.getBoundsInParent())) {
-				playerWins();
-			}
+		if (doLasersHitSingleRectangle(playerLaserObjects, playerLasers, enemyBoss)) {
+			playerWins();
 		}
 	}
 	
 	private void checkEnemyLaserHitPlayer() {
-		for (Node laserNode : enemyLasers.getChildren()) {
-			Rectangle laser = (Rectangle) laserNode;
-			if (laser.getBoundsInParent().intersects(player.getBoundsInParent())) {
-				playerLoses();
-			}
+		if (doLasersHitSingleRectangle(enemyLaserObjects, enemyLasers, player)) {
+			playerLoses();
 		}
 	}
 	
 	private void checkLaserIntersect() {
-		outer: for (Node enemyLaserNode : enemyLasers.getChildren()) {
-			Rectangle enemyLaser = (Rectangle) enemyLaserNode;
-			for (Node playerLaserNode : playerLasers.getChildren()) {
-				Rectangle playerLaser = (Rectangle) playerLaserNode;
-				if (enemyLaser.getBoundsInParent().intersects(playerLaser.getBoundsInParent())) {
-					playerLasers.getChildren().remove(playerLaserNode);
-					break outer;
-				}
-			}
-		}
+		checkPlayerLaserHitRectangleInGroup(enemyLasers, false);
 	}
 	
 	private void checkPlayerEnemyIntersect() {
-		if (player.getBoundsInParent().intersects(enemyBoss.getBoundsInParent())) {
-			playerLoses();
-		}
+		playerLosesIfIntersectEnemy(enemyBoss);
 	}
 	
 	private void handleKeyPressed(KeyCode code) {
 		switch (code) {
 			case Q:
-				// quit Battle and go back to Menu
-				sceneManager.goToMenuScene(sceneManager);
+				quitToMenu();
 				break;
 			case W: 
 				shootPlayerLaser("UP");
@@ -211,11 +143,5 @@ public class BossBattle implements SceneInterface {
 			default:
 				playerObject.handlePlayerKey(code);
 		}
-	}
-	
-	private void shootPlayerLaser(String direction) {
-		Laser playerLaserObject = new Laser(Player.LASER_SIZE, Color.YELLOW, direction, player);
-		playerLaserObjects.add(playerLaserObject);
-		updatePlayerLasers();
 	}	
 }

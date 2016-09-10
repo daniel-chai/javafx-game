@@ -13,7 +13,7 @@ public class Player {
 	public Player() {
 		double xPosition = Main.SIZE / 2 - WIDTH / 2;
 		double yPosition = Main.SIZE - HEIGHT - 25;
-		player = UIGenerator.createRectangle(Color.GREEN, xPosition, yPosition, WIDTH, HEIGHT);
+		this.player = UIGenerator.createRectangle(Color.GREEN, xPosition, yPosition, WIDTH, HEIGHT);
 	}
 	
 	public Rectangle getPlayer() {
