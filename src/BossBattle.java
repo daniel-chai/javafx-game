@@ -140,22 +140,30 @@ public class BossBattle extends SimpleBattle implements SceneInterface {
 	
 	private void checkPlayerLaserHitEnemy() {
 		if (doLasersHitSingleRectangle(playerLaserObjects, playerLasers, enemyBoss)) {
-			if (enemyLives <= 1) {
-				playerWins();
-			}
-			enemyLives--;
-			enemyLivesText.setText("Enemy Lives: " + enemyLives);
+			decreaseEnemyLives();
 		}
 	}
 	
 	private void checkEnemyLaserHitPlayer() {
 		if (doLasersHitSingleRectangle(enemyLaserObjects, enemyLasers, player)) {
-			if (playerLives <= 1) {
-				playerLoses();
-			}
-			playerLives--;
-			playerLivesText.setText("Player Lives: " + playerLives);
+			decreasePlayerLives();
 		}
+	}
+	
+	private void decreaseEnemyLives() {
+		if (enemyLives <= 1) {
+			playerWins();
+		}
+		enemyLives--;
+		enemyLivesText.setText("Enemy Lives: " + enemyLives);
+	}
+	
+	private void decreasePlayerLives() {
+		if (playerLives <= 1) {
+			playerLoses();
+		}
+		playerLives--;
+		playerLivesText.setText("Player Lives: " + playerLives);
 	}
 	
 	private void checkLaserIntersect() {
@@ -182,6 +190,9 @@ public class BossBattle extends SimpleBattle implements SceneInterface {
 		switch (code) {
 			case Q:
 				quitToMenu();
+				break;
+			case SPACE: 
+				decreaseEnemyLives();
 				break;
 			case W: 
 				shootPlayerLaser("UP");

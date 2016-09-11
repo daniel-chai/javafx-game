@@ -6,13 +6,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class Battle extends SimpleBattle implements SceneInterface {
+	public static final int TOTAL_LEVELS = 4;
+	
 	private Scene battleScene;
 	private int level;
 	
 	private Group enemies;
 	
 	private double timer = 0.0;
-	private static double TIMER_LIMIT = 0.0;
+	private static double TIMER_LIMIT = 5.0;
 	
 	public Battle(SceneManager sceneManager, int level) {
 		this.sceneManager = sceneManager;
@@ -120,11 +122,18 @@ public class Battle extends SimpleBattle implements SceneInterface {
 			case Q:
 				quitToMenu();
 				break;
+			case SPACE:
+				skipToBossBattle();
+				break;
 			case W: 
 				shootPlayerLaser("UP");
 				break;
 			default:
 				playerObject.handlePlayerKey(code);
 		}
+	}
+	
+	private void skipToBossBattle() {
+		sceneManager.goToNextLevelScene(sceneManager, TOTAL_LEVELS);
 	}
 }

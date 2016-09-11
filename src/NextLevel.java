@@ -49,6 +49,6 @@ public class NextLevel {
 	}
 	
 	private boolean isNextLevelBoss() {
-		return level >= 1 ? true : false;
+		return level >= Battle.TOTAL_LEVELS ? true : false;
 	}
 }
