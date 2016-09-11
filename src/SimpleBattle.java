@@ -27,7 +27,7 @@ public abstract class SimpleBattle {
 	}
 	
 	protected void addBottomLeftText(String text) {
-		Text bottomLeftText = UIGenerator.createText(text, 10, Main.SIZE - 10, 15);
+		Text bottomLeftText = UIGenerator.createText(text, 10, Main.SIZE - 10);
 		bottomLeftText.setFill(Color.WHITE);
 		
 		root.getChildren().add(bottomLeftText);

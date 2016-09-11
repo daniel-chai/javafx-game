@@ -7,14 +7,21 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
-public class BossBattle extends SimpleBattle {
+public class BossBattle extends SimpleBattle implements SceneInterface {
 	private Scene bossBattleScene;
 	
 	private EnemyBoss enemyBossObject;
 	private Rectangle enemyBoss;
 	private Set<Laser> enemyLaserObjects;
 	private Group enemyLasers;
+	private Group potions;
+	
+	private int playerLives = 5;
+	private int enemyLives = 5;
+	private Text playerLivesText;
+	private Text enemyLivesText;
 	
 	public BossBattle(SceneManager sceneManager) {
 		this.sceneManager = sceneManager;
@@ -28,7 +35,9 @@ public class BossBattle extends SimpleBattle {
 		bossBattleScene = new Scene(root, width, height, Color.BLACK);
 		
 		addBossLevelText();
+		addLivesText();
 		addPlayer();
+		addPotions();
 		addEnemyBoss();
 		addPlayerLasers();
 		addEnemyLasers();
@@ -44,6 +53,21 @@ public class BossBattle extends SimpleBattle {
 	
 	private void addBossLevelText() {
 		addBottomLeftText("Boss Level");
+	}
+	
+	private void addLivesText() {
+		playerLivesText = UIGenerator.createText("Player Lives: " + playerLives, 435, Main.SIZE - 10);
+		playerLivesText.setFill(Color.WHITE);
+		root.getChildren().add(playerLivesText);
+		
+		enemyLivesText = UIGenerator.createText("Enemy Lives: " + enemyLives, 435, 25);
+		enemyLivesText.setFill(Color.WHITE);
+		root.getChildren().add(enemyLivesText);
+	}
+	
+	private void addPotions() {
+		potions = new Group();
+		root.getChildren().add(potions);
 	}
 	
 	private void addEnemyBoss() {
@@ -63,6 +87,10 @@ public class BossBattle extends SimpleBattle {
 	}
 	
 	public void step(double elapsedTime) {
+		if (stepCounter % 1000 == 0) {
+			createPotion();
+		}
+		
 		if (stepCounter % 10 == 0) {
 			moveEnemyBoss();
 		}
@@ -82,8 +110,15 @@ public class BossBattle extends SimpleBattle {
 		checkEnemyLaserHitPlayer();
 		checkLaserIntersect();
 		checkPlayerEnemyIntersect();
+		checkPlayerPotionIntersect();
 		
 		stepCounter++;
+	}
+	
+	private void createPotion() {
+		Potion potionObject = new Potion();
+		Rectangle potion = potionObject.getPotion();
+		potions.getChildren().add(potion);
 	}
 	
 	private void moveEnemyBoss() {
@@ -105,13 +140,21 @@ public class BossBattle extends SimpleBattle {
 	
 	private void checkPlayerLaserHitEnemy() {
 		if (doLasersHitSingleRectangle(playerLaserObjects, playerLasers, enemyBoss)) {
-			playerWins();
+			if (enemyLives <= 1) {
+				playerWins();
+			}
+			enemyLives--;
+			enemyLivesText.setText("Enemy Lives: " + enemyLives);
 		}
 	}
 	
 	private void checkEnemyLaserHitPlayer() {
 		if (doLasersHitSingleRectangle(enemyLaserObjects, enemyLasers, player)) {
-			playerLoses();
+			if (playerLives <= 1) {
+				playerLoses();
+			}
+			playerLives--;
+			playerLivesText.setText("Player Lives: " + playerLives);
 		}
 	}
 	
@@ -121,6 +164,18 @@ public class BossBattle extends SimpleBattle {
 	
 	private void checkPlayerEnemyIntersect() {
 		playerLosesIfIntersectEnemy(enemyBoss);
+	}
+	
+	private void checkPlayerPotionIntersect() {
+		for (Node node : potions.getChildren()) {
+			Rectangle potion = (Rectangle) node;
+			if (potion.getBoundsInLocal().intersects(player.getBoundsInLocal())) {
+				potions.getChildren().remove(potion);
+				playerLives++;
+				playerLivesText.setText("Player Lives: " + playerLives);
+				break;
+			}
+		}
 	}
 	
 	private void handleKeyPressed(KeyCode code) {
