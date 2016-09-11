@@ -6,18 +6,29 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+/**
+ * This class represents the GameWon Scene for when the player wins the game.
+ * 
+ * @author Daniel Chai (dhc10)
+ * @version 1.0
+ */
 public class GameWon implements SceneInterface {
 	private SceneManager sceneManager;
 	private Scene gameWonScene;
 	private Group root;
 	
+	/**
+	 * Constructor for GameWon class
+	 * @param sceneManager SceneManager currently being used
+	 */
 	public GameWon(SceneManager sceneManager) {
 		this.sceneManager = sceneManager;
 	}
 	
 	/**
-	 * Creates GameWon scene
+	 * Returns the GameWon Scene
 	 */
+	@Override
 	public Scene init(int width, int height) {
 		root = new Group();
 		gameWonScene = new Scene(root, width, height, Color.AZURE);

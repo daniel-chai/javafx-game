@@ -2,6 +2,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * This class represents the Player that is present in every level (including boss level).
+ * 
+ * @author Daniel Chai (dhc10)
+ * @version 1.0
+ */
 public class Player {
 	public static final double WIDTH = 50;
 	public static final double HEIGHT = 50;
@@ -10,16 +16,26 @@ public class Player {
 	
 	private Rectangle player;
 	
+	/**
+	 * Constructor for Player class
+	 */
 	public Player() {
 		double xPosition = Main.SIZE / 2 - WIDTH / 2;
 		double yPosition = Main.SIZE - HEIGHT - 25;
 		this.player = UIGenerator.createRectangle(Color.GREEN, xPosition, yPosition, WIDTH, HEIGHT);
 	}
 	
+	/**
+	 * @return the Rectangle representing the Player
+	 */
 	public Rectangle getPlayer() {
 		return player;
 	}
 	
+	/**
+	 * Handle keyboard inputs that affect the Player
+	 * @param code key input
+	 */
 	public void handlePlayerKey(KeyCode code) {
 		switch (code) {
 			case LEFT:

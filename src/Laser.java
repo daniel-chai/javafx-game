@@ -3,6 +3,12 @@ import java.awt.geom.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * This class represents a Laser that is shot by a character in the game.
+ * 
+ * @author Daniel Chai (dhc10)
+ * @version 1.0
+ */
 public class Laser {
 	public static final double MOVE_SHIFT = 5;
 	
@@ -10,6 +16,13 @@ public class Laser {
 	private double size;
 	private String direction;
 	
+	/**
+	 * Constructor for Laser class
+	 * @param size size of the Laser
+	 * @param color color of the Laser
+	 * @param direction direction in which the Laser travels
+	 * @param shooter shooter of the Laser
+	 */
 	public Laser(double size, Color color, String direction, Rectangle shooter) {
 		this.size = size;
 		this.direction = direction;
@@ -18,10 +31,16 @@ public class Laser {
 		this.laser = UIGenerator.createRectangle(color, position.getX(), position.getY(), size, size);
 	}
 	
+	/**
+	 * @return the Rectangle representing a Laser
+	 */
 	public Rectangle getLaser() {
 		return laser;
 	}
 	
+	/**
+	 * Move Laser in the correct direction
+	 */
 	public void moveLaser() {
 		switch (direction) {
 			case "UP":

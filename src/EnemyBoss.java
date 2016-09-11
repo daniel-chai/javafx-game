@@ -3,6 +3,12 @@ import java.util.Random;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * This class represents the EnemyBoss that is present in the boss level.
+ * 
+ * @author Daniel Chai (dhc10)
+ * @version 1.0
+ */
 public class EnemyBoss {
 	public static final double WIDTH = 50;
 	public static final double HEIGHT = 50;
@@ -11,17 +17,24 @@ public class EnemyBoss {
 	
 	private Rectangle enemyBoss;
 	
+	/**
+	 * Constructor for EnemyBoss class
+	 */
 	public EnemyBoss() {
 		double xPosition = Main.SIZE / 2 - WIDTH / 2;
 		double yPosition = 25;
 		this.enemyBoss = UIGenerator.createRectangle(Color.RED, xPosition, yPosition, WIDTH, HEIGHT);
 	}
 	
+	/**
+	 * @return the Rectangle representing the EnemyBoss
+	 */
 	public Rectangle getEnemyBoss() {
 		return enemyBoss;
 	}
 	
 	/**
+	 * Move EnemyBoss according to following specifications:
 	 * If enemy boss is not in center: move towards center
 	 * If enemy boss is in center: move randomly
 	 */

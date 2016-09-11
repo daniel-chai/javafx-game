@@ -6,18 +6,29 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+/**
+ * This class represents the GameOver Scene for when the player loses the game.
+ * 
+ * @author Daniel Chai (dhc10)
+ * @version 1.0
+ */
 public class GameOver implements SceneInterface {
 	private SceneManager sceneManager;
 	private Scene gameOverScene;
 	private Group root;
 	
+	/**
+	 * Constructor for GameOver class
+	 * @param sceneManager SceneManager currently being used
+	 */
 	public GameOver(SceneManager sceneManager) {
 		this.sceneManager = sceneManager;
 	}
 	
 	/**
-	 * Creates the GameOver Scene
+	 * Returns the GameOver Scene
 	 */
+	@Override
 	public Scene init(int width, int height) {
 		root = new Group();
 		gameOverScene = new Scene(root, width, height, Color.AZURE);

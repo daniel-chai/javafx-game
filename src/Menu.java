@@ -5,18 +5,29 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
+/**
+ * This class represents the Menu Scene from where the levels can be started.
+ * 
+ * @author Daniel Chai (dhc10)
+ * @version 1.0
+ */
 public class Menu implements SceneInterface {
 	private SceneManager sceneManager;
 	private Scene menuScene;
 	private Group root;
 	
+	/**
+	 * Constructor for Menu class
+	 * @param sceneManager SceneManager currently being used
+	 */
 	public Menu(SceneManager sceneManager) {
 		this.sceneManager = sceneManager;
 	}
 	
 	/**
-	 * Creates the menu scene
+	 * Returns the Menu Scene
 	 */
+	@Override
 	public Scene init(int width, int height) {
 		root = new Group();
 		menuScene = new Scene(root, width, height, Color.AZURE);

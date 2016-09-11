@@ -5,6 +5,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * This class represents the Battle Scene that is used for all four of the normal levels.
+ * The re-use is possible because the constructor takes in the level as a parameter.
+ * 
+ * @author Daniel Chai (dhc10)
+ * @version 1.0
+ */
 public class Battle extends SimpleBattle implements SceneInterface {
 	public static final int TOTAL_LEVELS = 4;
 	
@@ -16,14 +23,20 @@ public class Battle extends SimpleBattle implements SceneInterface {
 	private double timer = 0.0;
 	private static double TIMER_LIMIT = 20.0;
 	
+	/**
+	 * Constructor for Battle class
+	 * @param sceneManager SceneManager currently being used
+	 * @param level current Battle level
+	 */
 	public Battle(SceneManager sceneManager, int level) {
 		this.sceneManager = sceneManager;
 		this.level = level;
 	}
 	
 	/**
-	 * Creates the battle scene
+	 * Returns the Battle Scene
 	 */
+	@Override
 	public Scene init(int width, int height) {
 		root = new Group();
 		battleScene = new Scene(root, width, height, Color.BLACK);
@@ -36,6 +49,26 @@ public class Battle extends SimpleBattle implements SceneInterface {
 		battleScene.setOnKeyPressed(e -> handleKeyPressed(e.getCode()));
 		
 		return battleScene;
+	}
+	
+	/**
+	 * Entry point for game loop
+	 * @param elapsedTime seconds elapsed since last loop
+	 */
+	public void step(double elapsedTime) {
+		checkTimeUp(elapsedTime);
+		
+		if (stepCounter % getEnemyCreationRate() == 0) {
+			createEnemy();
+		}
+		
+		moveEnemies();
+		movePlayerLasers();
+		checkPlayerLaserHitEnemy();
+		checkPlayerEnemyIntersect();
+		checkEnemyReachBottom();	
+		
+		stepCounter++;
 	}
 	
 	private void playerWinsLevel() {
@@ -59,22 +92,6 @@ public class Battle extends SimpleBattle implements SceneInterface {
 	private double getEnemyTravelRate() {
 		double[] enemyTravelRate = {0.9, 1.0, 1.1, 1.2};
 		return enemyTravelRate[level];
-	}
-	
-	public void step(double elapsedTime) {
-		checkTimeUp(elapsedTime);
-		
-		if (stepCounter % getEnemyCreationRate() == 0) {
-			createEnemy();
-		}
-		
-		moveEnemies();
-		movePlayerLasers();
-		checkPlayerLaserHitEnemy();
-		checkPlayerEnemyIntersect();
-		checkEnemyReachBottom();	
-		
-		stepCounter++;
 	}
 	
 	private void checkTimeUp(double elapsedTime) {

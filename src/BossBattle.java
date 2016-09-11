@@ -9,6 +9,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
+/**
+ * This class represents the BossBattle Scene in which the boss level takes place.
+ * A different class is needed specifically for this Scene because there is a lot
+ * of different functionality from the normal levels.
+ * 
+ * @author Daniel Chai (dhc10)
+ * @version 1.0
+ */
 public class BossBattle extends SimpleBattle implements SceneInterface {
 	private Scene bossBattleScene;
 	
@@ -23,13 +31,18 @@ public class BossBattle extends SimpleBattle implements SceneInterface {
 	private Text playerLivesText;
 	private Text enemyLivesText;
 	
+	/**
+	 * Constructor for BossBattle class
+	 * @param sceneManager SceneManager currently being used
+	 */
 	public BossBattle(SceneManager sceneManager) {
 		this.sceneManager = sceneManager;
 	}
 	
 	/**
-	 * Creates the boss battle scene
+	 * Returns the BossBattle Scene
 	 */
+	@Override
 	public Scene init(int width, int height) {		
 		root = new Group();
 		bossBattleScene = new Scene(root, width, height, Color.BLACK);
@@ -45,6 +58,39 @@ public class BossBattle extends SimpleBattle implements SceneInterface {
 		bossBattleScene.setOnKeyPressed(e -> handleKeyPressed(e.getCode()));
 		
 		return bossBattleScene;
+	}
+	
+	/**
+	 * Entry point for game loop
+	 * @param elapsedTime seconds elapsed since last loop
+	 */
+	public void step(double elapsedTime) {
+		if (stepCounter % 1000 == 0) {
+			createPotion();
+		}
+		
+		if (stepCounter % 10 == 0) {
+			moveEnemyBoss();
+		}
+		
+		if (stepCounter % 30 == 0 && stepCounter % 60 != 0) {
+			shootEnemyLaser("UP");
+			shootEnemyLaser("DOWN");
+		}
+		if (stepCounter % 60 == 0) {
+			shootEnemyLaser("LEFT");
+			shootEnemyLaser("RIGHT");
+		}
+		
+		movePlayerLasers();
+		moveEnemyLasers();
+		checkPlayerLaserHitEnemy();
+		checkEnemyLaserHitPlayer();
+		checkLaserIntersect();
+		checkPlayerEnemyIntersect();
+		checkPlayerPotionIntersect();
+		
+		stepCounter++;
 	}
 
 	private void playerWins() {
@@ -84,35 +130,6 @@ public class BossBattle extends SimpleBattle implements SceneInterface {
 		root.getChildren().remove(enemyLasers);
 		enemyLasers = new Group();
 		transferLasersToGroup(enemyLaserObjects, enemyLasers);
-	}
-	
-	public void step(double elapsedTime) {
-		if (stepCounter % 1000 == 0) {
-			createPotion();
-		}
-		
-		if (stepCounter % 10 == 0) {
-			moveEnemyBoss();
-		}
-		
-		if (stepCounter % 30 == 0 && stepCounter % 60 != 0) {
-			shootEnemyLaser("UP");
-			shootEnemyLaser("DOWN");
-		}
-		if (stepCounter % 60 == 0) {
-			shootEnemyLaser("LEFT");
-			shootEnemyLaser("RIGHT");
-		}
-		
-		movePlayerLasers();
-		moveEnemyLasers();
-		checkPlayerLaserHitEnemy();
-		checkEnemyLaserHitPlayer();
-		checkLaserIntersect();
-		checkPlayerEnemyIntersect();
-		checkPlayerPotionIntersect();
-		
-		stepCounter++;
 	}
 	
 	private void createPotion() {
