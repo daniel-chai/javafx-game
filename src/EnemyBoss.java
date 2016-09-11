@@ -6,8 +6,8 @@ import javafx.scene.shape.Rectangle;
 public class EnemyBoss {
 	public static final double WIDTH = 50;
 	public static final double HEIGHT = 50;
-	public static final double LASER_SIZE = 20;
-	public static final double MOVE_SHIFT = 10;
+	public static final double LASER_SIZE = 25;
+	public static final double MOVE_SHIFT = 15;
 	
 	private Rectangle enemyBoss;
 	

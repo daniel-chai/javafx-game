@@ -14,7 +14,7 @@ public class Battle extends SimpleBattle implements SceneInterface {
 	private Group enemies;
 	
 	private double timer = 0.0;
-	private static double TIMER_LIMIT = 5.0;
+	private static double TIMER_LIMIT = 20.0;
 	
 	public Battle(SceneManager sceneManager, int level) {
 		this.sceneManager = sceneManager;
@@ -123,7 +123,8 @@ public class Battle extends SimpleBattle implements SceneInterface {
 				quitToMenu();
 				break;
 			case SPACE:
-				skipToBossBattle();
+				// cheat code to skip to next level
+				playerWinsLevel();
 				break;
 			case W: 
 				shootPlayerLaser("UP");
@@ -131,9 +132,5 @@ public class Battle extends SimpleBattle implements SceneInterface {
 			default:
 				playerObject.handlePlayerKey(code);
 		}
-	}
-	
-	private void skipToBossBattle() {
-		sceneManager.goToNextLevelScene(sceneManager, TOTAL_LEVELS);
 	}
 }

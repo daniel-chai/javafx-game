@@ -95,11 +95,11 @@ public class BossBattle extends SimpleBattle implements SceneInterface {
 			moveEnemyBoss();
 		}
 		
-		if (stepCounter % 50 == 0 && stepCounter % 100 != 0) {
+		if (stepCounter % 30 == 0 && stepCounter % 60 != 0) {
 			shootEnemyLaser("UP");
 			shootEnemyLaser("DOWN");
 		}
-		if (stepCounter % 100 == 0) {
+		if (stepCounter % 60 == 0) {
 			shootEnemyLaser("LEFT");
 			shootEnemyLaser("RIGHT");
 		}
@@ -192,6 +192,7 @@ public class BossBattle extends SimpleBattle implements SceneInterface {
 				quitToMenu();
 				break;
 			case SPACE: 
+			// cheat code to decrease enemy lives by 1
 				decreaseEnemyLives();
 				break;
 			case W: 

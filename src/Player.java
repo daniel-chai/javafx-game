@@ -6,7 +6,7 @@ public class Player {
 	public static final double WIDTH = 50;
 	public static final double HEIGHT = 50;
 	public static final double LASER_SIZE = 10;
-	public static final double MOVE_SHIFT = 10;
+	public static final double MOVE_SHIFT = 15;
 	
 	private Rectangle player;
 	
