@@ -1,3 +1,14 @@
+// This entire file is part of my masterpiece.
+// Daniel Chai
+
+/**
+ * This class is well designed as a superclass because it extracts out all the 
+ * common functionality from the Battle classes. It also has very descriptive
+ * naming methods and doesn't use static variables. To extend it, a subclass
+ * can simply use "extend". An example is the BossBattle class, which is also
+ * part of my code masterpiece.
+ */
+
 import java.util.HashSet;
 import java.util.Set;
 

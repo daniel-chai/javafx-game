@@ -1,3 +1,13 @@
+// This entire file is part of my masterpiece.
+// Daniel Chai
+
+/**
+ * This class is well designed as a subclass of SimpleBattle. It is a good
+ * example of how to not use repeated code by inheriting the common functionality
+ * from its superclass. Instead this class only has the necessary unique behavior. 
+ * It also has very descriptive naming methods and doesn't use static variables.
+ */
+
 import java.util.HashSet;
 import java.util.Set;
 
