@@ -11,6 +11,7 @@ First project for CompSci 308 Fall 2016
 - Resources Used:
 	- Java Documentation
 	- JavaFX Documentation
+	- Stack Overflow
 - File Used to Start the Project: Main.java
 
 ## Cheat Codes
