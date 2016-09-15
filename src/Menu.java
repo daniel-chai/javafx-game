@@ -6,7 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
 /**
- * This class represents the Menu Scene from where the levels can be started.
+ * This class represents the Menu Scene from where the levels can be started. 
+ * It is the main starting Scene for almost every action. From here, the player
+ * can either go read the instructions or start the game.
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0

@@ -12,7 +12,9 @@ import javafx.scene.text.Text;
 /**
  * This class represents the BossBattle Scene in which the boss level takes place.
  * A different class is needed specifically for this Scene because there is a lot
- * of different functionality from the normal levels.
+ * of different functionality from the normal levels. However, it still extends 
+ * the abstract superclass, SimpleBattle. Because of that, a lot of the basic
+ * components such as the player and the lasers have already been instantiated. 
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0

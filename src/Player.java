@@ -4,6 +4,8 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * This class represents the Player that is present in every level (including boss level).
+ * It is most suited to be used when a Player character needs to be generated. The class
+ * handles keyboard input that controls how the Player moves around.
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0

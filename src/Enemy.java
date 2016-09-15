@@ -4,7 +4,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
- * This class represents an Emeny that is present in the four normal levels.
+ * This class represents an Enemy character that is present in the four normal levels.
+ * It is most suited to be used when an Enemy character needs to be generated. The class
+ * essentially only instantiates an Enemy object, without adding much additional functionality.
+ * The enemies only move straight down from the screen, so public methods are not needed. 
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0

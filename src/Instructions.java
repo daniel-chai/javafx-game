@@ -8,6 +8,8 @@ import javafx.scene.text.Text;
 
 /**
  * This class represents the Instructions Scene where the instructions are listed.
+ * It should be accessible from the Menu Scene. From the Instructions Scene, the 
+ * player can go back to the Menu to actually start the game.
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0

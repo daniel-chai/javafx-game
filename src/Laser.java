@@ -4,7 +4,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
- * This class represents a Laser that is shot by a character in the game.
+ * This class represents a Laser that is shot by a character in the game. 
+ * It is most suited to be used when a Laser item needs to be generated. 
+ * Lasers can be used by any character. This class also defines how a laser
+ * should move based on the direction it is headed in.
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0

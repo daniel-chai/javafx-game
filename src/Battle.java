@@ -7,7 +7,10 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * This class represents the Battle Scene that is used for all four of the normal levels.
- * The re-use is possible because the constructor takes in the level as a parameter.
+ * It extends the abstract superclass, SimpleBattle. Because of that, a lot of the basic
+ * components such as the player and the lasers have already been instantiated. This one
+ * class can be re-used for every normal level because the constructor takes in the level
+ * as a parameter.
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0

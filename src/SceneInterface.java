@@ -1,7 +1,9 @@
 import javafx.scene.Scene;
 
 /**
- * This is the interface implemented by every class that generates a Scene.
+ * This is the Interface implemented by every class that generates a Scene. The purpose
+ * of this Interface is to standardize the way Scenes are designed across the game. The
+ * consistency that this Interface provides is an additional design feature.
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0

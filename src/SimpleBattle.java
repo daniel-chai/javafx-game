@@ -10,7 +10,9 @@ import javafx.scene.text.Text;
 /**
  * This class is abstract because it is never meant to be instantiated. Instead, it is
  * a super class for all types of "battles," such as Battle and BossBattle. It contains
- * common functionality that is present in all of these "battles."
+ * common functionality that is present in all of these "battles." This functionality 
+ * includes adding Text, the Player, the Lasers, and moving some of the characters/items
+ * around. All "battles" should extend this class to limit duplicated code.
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0

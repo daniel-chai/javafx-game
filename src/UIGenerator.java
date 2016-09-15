@@ -6,7 +6,10 @@ import javafx.scene.text.Text;
 
 /**
  * This class generates common JavaFX UI components based on the input parameters.
- * The supported UI components are Text, Button, and Rectangle.
+ * The supported UI components are Text, Button, and Rectangle. All the methods are
+ * static because they simply take in parameters and return a new UI component. This
+ * class doesn't have instance variables and there is no sensible meaning of instantiating
+ * a UIGenerator object, so it makes more sense to have static methods. 
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0

@@ -7,7 +7,9 @@ import javafx.scene.paint.Color;
 
 /**
  * This class represents the NextLevel Scene, which is reached whenever the player beats a level.
- * From here, the player can start the next level.
+ * From here, the player can start the next level. The constructor for the class takes in the 
+ * next level as a parameter, which is how the class knows what level to go to next. It also 
+ * knows when to advance to the BossBattle Scene.
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0

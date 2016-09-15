@@ -8,6 +8,8 @@ import javafx.scene.text.Text;
 
 /**
  * This class represents the GameOver Scene for when the player loses the game.
+ * There should be a path to this Scene from every level, and this Scene can 
+ * lead back to the Menu Scene.
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0

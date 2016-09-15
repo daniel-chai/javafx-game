@@ -6,8 +6,13 @@ import javafx.util.Duration;
 
 /**
  * This class handles all the scene changes. In the whole game, there is only one Stage that is used.
- * Every time a new Scene needs to be displayed, a method from this class can be called to set a 
- * particular Scene to be displayed on the Stage.
+ * That is why this class takes in the primaryStage as a parameter in the constructor. All the scene
+ * changes are done on this stage. Because this stage is a saved state across the game, the same
+ * SceneManager object has to be used throughout the game. The implication is that every public method
+ * this class provides takes in a SceneManager object as a parameter. Each of these public methods
+ * goes to a separate Scene. So from the Scene classes, to instigate a scene switch, any one of the
+ * provided public methods can be called with the current SceneManager object passed in as a 
+ * parameter.
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0

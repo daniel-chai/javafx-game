@@ -5,6 +5,9 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * This class represents the EnemyBoss that is present in the boss level.
+ * It is most suited to be used when an EnemyBoss character needs to be generated. 
+ * The class defines the EnemyBoss behavior, such as how the EnemyBoss moves 
+ * around in a semi-random manner.
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0

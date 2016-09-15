@@ -7,7 +7,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 /**
- * This class represents the GameWon Scene for when the player wins the game.
+ * This class represents the GameWon Scene for when the player wins the game. 
+ * This Scene should only be accessible from the BossBattle Scene, as the player
+ * must beat all the levels to win the game. From this Scene, the player can
+ * go back to the Menu Scene to play again.
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0

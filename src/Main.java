@@ -2,7 +2,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
  
 /**
- * This class is the entry point to the game.
+ * This class is the entry point to the game. It is necessary for the game to start.
  * 
  * @author Daniel Chai (dhc10)
  * @version 1.0
